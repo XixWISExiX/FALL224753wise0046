@@ -30,6 +30,8 @@ head(ddt)
 ```
 
 ## Task 3
+
+### Base Questions
  1. What are the qualitative variables in “ddt”? `RIVER & SPECIES`
  2. What are the quantitative variables in “ddt”? `MILE, LENGTH, WEIGHT, & DDT`
  3. How many SPECIES are in the ddt data set? `3`
@@ -41,6 +43,9 @@ with(ddt, ddt[WEIGHT>800 & SPECIES=="LMBASS",])
 ```{r}
 with(ddt, ddt[DDT>4.0 & RIVER=="SCM",])
 ```
+
+### Clicker Questions
+
  1. Find the mean length of fish in the ddt data frame!
 ```{r}
 mean(ddt$LENGTH)
