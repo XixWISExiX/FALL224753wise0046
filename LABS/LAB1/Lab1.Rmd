@@ -1,14 +1,16 @@
 ---
 title: "Lab1"
 author: "Joshua Wiseman"
-date: "2023-01-18"
-output: html_document
+date: "2023-01-23"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 
 # Tasks
 
@@ -28,4 +30,126 @@ head(ddt)
 ```
 
 ## Task 3
+ 1. What are the qualitative variables in “ddt”? `RIVER & SPECIES`
+ 2. What are the quantitative variables in “ddt”? `MILE, LENGTH, WEIGHT, & DDT`
+ 3. How many SPECIES are in the ddt data set? `3`
+ 4. Subset the ddt data set so that we see only the observations with SPECIES, LMBASS and WEIGHT bigger than 800gms
+```{r}
+with(ddt, ddt[WEIGHT>800 & SPECIES=="LMBASS",])
+```
+ 5. Subset the ddt data set so that we see only those observations where the RIVER is SCM and DDT bigger than 4.0
+```{r}
+with(ddt, ddt[DDT>4.0 & RIVER=="SCM",])
+```
+ 1. Find the mean length of fish in the ddt data frame!
+```{r}
+mean(ddt$LENGTH)
+```
+ 
+ 2. What is the standard deviation of the weight of fish in the ddt data frame?
+```{r}
+sd(ddt$WEIGHT)
+```
+ 
+ 3. Is this the plot of LENGTH vs WEIGHT from the ddt data frame? `No`
+ 4. If v=1:20 what is the last value of v/20? `1`
+ 
+## Task 4
 
+ Make a table of the rivers.
+```{r}
+rivers <- table(ddt$RIVER)
+rivers
+```
+ Make a color coded barplot of the rivers.
+```{r}
+library(ggplot2)
+barplot(rivers, col = rainbow(4))
+```
+ 
+ Make a table of the rivers crossed with the species of fish.
+```{r}
+rivsp <- table(ddt$RIVER, ddt$SPECIES)
+rivsp
+```
+ Make a barplot of the rivers crossed with the species of fish.
+
+```{r}
+barplot(rivsp, beside=TRUE, col = rainbow(4))
+with(ddt, legend(x = 1, y = 80, legend = ddt$RIVER[!(duplicated(ddt$RIVER))], bty = "n", fill = rainbow(4), cex = 0.8))
+```
+
+## Task 5
+
+ Make a pie chart of Fish SPECIES
+```{r}
+spetab <- table(ddt$SPECIES)
+pie(spetab,col=1:4)
+```
+
+ Make a pie chart of RIVERS
+```{r}
+rivtab <- table(ddt$RIVER)
+pie(rivtab,col=1:4)
+```
+
+## Task 6
+ 
+ Make a boxplot of the variable DDT
+```{r}
+layout(matrix(c(1,2,3),nr=1,nc=3))# 1 row 3 cols
+with(ddt,boxplot(DDT,ylab="DDT",col="Red",notch=TRUE))
+```
+
+ Make a boxplot of the variable WEIGHT
+```{r}
+with(ddt,boxplot(WEIGHT,ylab="WEIGHT",col="Green",notch=TRUE))
+```
+ 
+ Make a boxplot of the variable LENGTH
+```{r}
+with(ddt,boxplot(LENGTH,ylab="LENGTH",col="Blue",notch=TRUE))
+```
+ 
+## Task 7
+
+ Make a coplot of LENGTH Vs WEIGHT given RIVER
+```{r}
+rivcol=with(ddt, ifelse(RIVER=="FCM","Red",
+                        ifelse(RIVER=="LCM","Blue",
+                               ifelse(RIVER=="SCM","Green","Black"))))
+coplot(WEIGHT~LENGTH|RIVER,data=ddt, col = rivcol)
+```
+
+ Make a coplot of DDT Vs WEIGHT given SPECIES
+```{r}
+fishcol=with(ddt,ifelse(SPECIES=="CCATFISH","Red",
+                        ifelse(SPECIES=="SMBUFFALO","Blue","Green")))
+coplot(DDT~WEIGHT|SPECIES,data=ddt, col = fishcol)
+```
+ 
+## Task 8
+
+ Graph 1
+```{r}
+library(ggplot2)
+g1 <- ggplot(ddt)
+g1 <- g1 + geom_boxplot(aes(x = SPECIES, y = WEIGHT, fill = RIVER)) + ggtitle("Joshua Wiseman")
+g1
+```
+
+ Graph 2
+```{r}
+library(ggplot2)
+g2 <- ggplot(ddt)
+g2 <- g2 + geom_violin(aes(x = RIVER, y = LENGTH, fill = SPECIES)) + ggtitle("Joshua Wiseman")
+g2
+```
+
+ Graph 3
+```{r}
+library(ggplot2)
+g3 <- ggplot(ddt)
+g3 <- g3 + geom_point(aes(x = WEIGHT, y = LENGTH, col = SPECIES)) + ggtitle("Joshua Wiseman")
+g3
+```
