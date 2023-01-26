@@ -1,0 +1,34 @@
+---
+title: "QuizLab1"
+author: "Joshua Wiseman"
+date: "2023-01-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+ddt <- read.csv("DDT.csv")
+head(t)
+
+# Finding the different manipulations of LENGTH in DDT
+len = ddt$LENGTH
+head(len)
+
+# Chebyshev’s theorem
+k = 2
+cheb = 1 - 1 / (k ^ 2)
+cheb
+
+# boxplot
+boxplot(len, main = "Length Boxplot", xlab = "Length", col = "black", horizontal = TRUE, notch = TRUE)
+
+z = (len - mean(len)) / sd(len)
+head(z)
+
+# R to calculate the exact proportion within 2 standard deviation of the mean.
+exacttwo = length(len[abs(z) < 2]) / length(len)
+exacttwo
+```

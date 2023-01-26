@@ -22,3 +22,93 @@ knitr::opts_chunk$set(echo = TRUE)
 getwd()
 ```
  
+## Task 2
+
+```{r}
+epagas <- read.csv("EPAGAS-1.csv")
+head(epagas)
+```
+
+## Task 3
+
+ 1. Make the object mpg, the number of miles per gallon vector.
+ 
+```{r}
+mpg = epagas$MPG
+head(mpg)
+```
+ 
+ 2. If $z_i=\frac{x_i-\bar{x}}{s_x}$, then $\bar{z}=0$ and $s^2_z=1$. Transform the mpg variable to z and verify these results.
+ 
+```{r}
+z = (mpg - mean(mpg)) / sd(mpg)
+head(z)
+print(paste0("mean = ", round(mean(z), digits = 4)), quote = FALSE)
+print(paste0("variance = ", var(z)), quote = FALSE)
+print(paste0("standard deviation = ", sd(z)), quote = FALSE)
+```
+ 
+ 3. Using z, find the values of mpg that are possible outliers.
+ 
+```{r}
+mpg[abs(z) >= 2 & abs(z) <= 3]
+```
+ 
+ 4. Using z, find the values of mpg that defined as outliers.
+ 
+```{r}
+mpg[abs(z) > 3]
+```
+ 
+ 
+ 5. Using the lattice package construct a dotplot with colors, Red=outlier, Blue=possible outlier. (NB – read the instructions in the lab2.r file for installing the package)
+ 
+```{r}
+mycol = ifelse(abs(z) > 3, "red",
+        ifelse(abs(z) >= 2 & abs(z) <= 3,"blue", "black")) 
+library(lattice)
+dotplot(mpg, col=mycol, main = "Plot of mpg values")
+```
+
+## Task 4
+
+ 1. Make a boxplot of the mpg variable. Make the box black. Put a notch where the median goes. Put a title on the graph. Make the plot horizontal.
+```{r}
+boxplot(mpg, main = "MPG Boxplot", xlab = "MPG", col = "black", horizontal = TRUE, notch = TRUE)
+```
+ 
+ 2. Using Chebyshev’s theorem, $1 - \frac{1}{k^2}$, predict the proportion of data within 2 standard deviations of the mean of the mpg data.
+```{r}
+k = 2
+cheb = 1 - 1 / (k ^ 2)
+cheb
+```
+ 
+ 3. Use R to calculate the exact proportion within 2 standard deviation of the mean.
+```{r}
+exacttwo = length(mpg[abs(z) < 2]) / length(mpg)
+exacttwo
+```
+ 
+ 
+ 4. Does Chebyshev agree with the data? `Yes`
+ 5. Now use the empirical rule, what proportion (according to the rule) of the data should be within 2 standard deviations of the mean? `95%`
+ 6. How well does it correspond? `Pretty well! 96% is very close to 95%.`
+ `We can also see that MPG follows the empirical rule well through this histogram.`
+ ```{r}
+# X-axis grid
+mpg2 <- seq(min(mpg), max(mpg), length = 40)
+# Normal curve
+curve <- dnorm(mpg2, mean = mean(mpg), sd = sd(mpg))
+# Histogram
+hist(mpg, prob = TRUE, col = "white",
+     ylim = c(0, max(curve)),
+     main = "Histogram of MPG with curve")
+lines(mpg2, curve, col = 2, lwd = 2)
+# Credit: https://r-charts.com/distribution/histogram-curves/
+```
+
+ 7. Is the Empirical rule valid in this case? Why? `Yes because the Empirical rule was within the 95% range (95% and up)`
+ `in this case. If the data for example was in the 80% range, then the`
+ `Empirical rule would be invalid in this case.`
+ 
