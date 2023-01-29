@@ -67,7 +67,7 @@ mpg[abs(z) > 3]
 mycol = ifelse(abs(z) > 3, "red",
         ifelse(abs(z) >= 2 & abs(z) <= 3,"blue", "black")) 
 library(lattice)
-dotplot(mpg, col=mycol, main = "Plot of mpg values")
+dotplot(mpg, col = mycol, main = "Plot of mpg values")
 ```
 
 ## Task 4
@@ -94,8 +94,8 @@ exacttwo
  4. Does Chebyshev agree with the data? `Yes`
  5. Now use the empirical rule, what proportion (according to the rule) of the data should be within 2 standard deviations of the mean? `95%`
  6. How well does it correspond? `Pretty well! 96% is very close to 95%.`
- `We can also see that MPG follows the empirical rule well through this histogram.`
- ```{r}
+ 7. Is the Empirical rule valid in this case? Why? `Yes. As shown by the histogram, it has the mound-shaped & symmetric distribution.`
+  ```{r}
 # X-axis grid
 mpg2 <- seq(min(mpg), max(mpg), length = 40)
 # Normal curve
@@ -107,8 +107,4 @@ hist(mpg, prob = TRUE, col = "white",
 lines(mpg2, curve, col = 2, lwd = 2)
 # Credit: https://r-charts.com/distribution/histogram-curves/
 ```
-
- 7. Is the Empirical rule valid in this case? Why? `Yes because the Empirical rule was within the 95% range (95% and up)`
- `in this case. If the data for example was in the 80% range, then the`
- `Empirical rule would be invalid in this case.`
  

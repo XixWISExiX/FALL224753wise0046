@@ -3,7 +3,7 @@
 # readxl, stringr, purrr, plotrix, qcc, ggplot2
 
 
-dird = "D:/MATH4773-5773/DATA/Excel/"
+dird = "~/Desktop/MainFolder/OuClasses/Spring 2023/Applied Statistical Methods/FALL224753wise0046/CourseData/Data-for-the-course/K25936_Downloads/Excel/"
 library(readxl)
 
 files = list.files(dird)
@@ -81,43 +81,43 @@ g
 
 zloo <- function(x){ # x vector
   n <- length(x)
-  
-  X <- matrix(data = rep(x,n ), 
-              nrow = n, 
-              ncol = n, 
+
+  X <- matrix(data = rep(x,n ),
+              nrow = n,
+              ncol = n,
               byrow = FALSE)
-  
+
   diag(X) <- NA # Place NA's on the diagonal
-  
+
   xbarloo <- colMeans(x = X,
                     na.rm = TRUE)
-  
-  sdloo <- apply(X = X, 
+
+  sdloo <- apply(X = X,
                  MARGIN = 2,
-                 sd, 
+                 sd,
                  na.rm  = TRUE) # put options for the FUN in last place
-  
+
   zloo <- (x-xbarloo)/sdloo
-  
+
   z <- scale(x = x,
              center = TRUE,
              scale = TRUE)[,1] # vector not matrix
-  
+
   zz <- matrix(c(x,z,zloo, xbarloo,sdloo), nrow = n, ncol = 5, byrow = FALSE)
-  
+
   colnames(zz) <- c("x","z","zloo","xbarloo","sdloo")
-  
+
   outloo <- zz[abs(zloo) > 3,]
   outz <- zz[abs(z) > 3,]
-  
-  newcol <- ifelse(test = abs(zloo) > 3, 
+
+  newcol <- ifelse(test = abs(zloo) > 3,
                    yes = "Red",
                    no = ifelse(test = abs(zloo) >=2 & abs(zloo) <= 3,
-                               yes =  "Pink", 
+                               yes =  "Pink",
                                no = "Green"))
-  
+
   pairs(x = zz, pch = 21, bg = newcol, main = "Red outliers, loo")
-  
+
   list(zz = zz, outloo = outloo, outz = outz )
 }
 #example

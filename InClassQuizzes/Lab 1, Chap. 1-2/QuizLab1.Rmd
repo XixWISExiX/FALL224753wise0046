@@ -10,25 +10,43 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+# Read in data
 ddt <- read.csv("DDT.csv")
-head(t)
+head(ddt)
 
-# Finding the different manipulations of LENGTH in DDT
+# QUIZ
+names(ddt)
+
+# # Data Wrangling
+# ddt[ddt$RIVER == "TRM" & ddt$LENGTH == 52,]
+# ddt[ddt$MILE == 5,]
+# ddt[ddt$SPECIES == "CCATFISH" & ddt$WEIGHT > 1700,]
+# ddt[ddt$SPECIES == "LMBASS" & ddt$RIVER == "TRM" & ddt$LENGTH == 36,]
+
+# Finding the different manipulations of LENGTH in DDT (category LENGTH)
 len = ddt$LENGTH
+l = mean(len)
+l
+s = sd(ddt$WEIGHT)
+s
+ddt[ddt$LENGTH > 50,]
 head(len)
 
-# Chebyshev’s theorem
-k = 2
-cheb = 1 - 1 / (k ^ 2)
-cheb
+ddt[ddt$SPECIES == "SMBUFFALO" & ddt$LENGTH > 50,]
 
-# boxplot
-boxplot(len, main = "Length Boxplot", xlab = "Length", col = "black", horizontal = TRUE, notch = TRUE)
-
-z = (len - mean(len)) / sd(len)
-head(z)
-
-# R to calculate the exact proportion within 2 standard deviation of the mean.
-exacttwo = length(len[abs(z) < 2]) / length(len)
-exacttwo
+# # Chebyshev’s theorem
+# k = 2
+# cheb = 1 - 1 / (k ^ 2)
+# cheb
+# 
+# # boxplot
+# boxplot(len, main = "Length Boxplot", xlab = "Length", col = "black", horizontal = TRUE, notch = TRUE)
+# 
+# # z-score calculation
+# z = (len - mean(len)) / sd(len)
+# head(z)
+# 
+# # R to calculate the exact proportion within 2 standard deviation of the mean.
+# exacttwo = length(len[abs(z) < 2]) / length(len)
+# exacttwo
 ```
