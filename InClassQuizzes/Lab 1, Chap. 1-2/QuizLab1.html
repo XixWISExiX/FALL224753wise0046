@@ -378,36 +378,22 @@ names(ddt)</code></pre>
 
 # Finding the different manipulations of LENGTH in DDT (category LENGTH)
 len = ddt$LENGTH
-l = mean(len)
-l</code></pre>
-<pre><code>## [1] 42.8125</code></pre>
-<pre class="r"><code>s = sd(ddt$WEIGHT)
-s</code></pre>
-<pre><code>## [1] 376.5461</code></pre>
-<pre class="r"><code>ddt[ddt$LENGTH &gt; 50,]</code></pre>
-<pre><code>##     RIVER MILE   SPECIES LENGTH WEIGHT   DDT
-## 5     FCM    5  CCATFISH   50.5   1252  50.0
-## 6     FCM    5  CCATFISH   52.0   1255 150.0
-## 24    TRM  275  CCATFISH   52.0   1770   8.2
-## 26    TRM  280  CCATFISH   51.0   1641  13.0
-## 28    TRM  280  CCATFISH   51.0   1728   6.6
-## 30    TRM  280  CCATFISH   51.0   1398  11.0
-## 33    TRM  280 SMBUFFALO   52.0   2302   3.0
-## 80    TRM  305  CCATFISH   51.0    353  22.0
-## 104   TRM  320  CCATFISH   51.5   1251  96.0
-## 123   TRM  330  CCATFISH   51.5   1229 140.0</code></pre>
-<pre class="r"><code>head(len)</code></pre>
-<pre><code>## [1] 42.5 44.0 41.5 39.0 50.5 52.0</code></pre>
-<pre class="r"><code>ddt[ddt$SPECIES == &quot;SMBUFFALO&quot; &amp; ddt$LENGTH &gt; 50,]</code></pre>
-<pre><code>##    RIVER MILE   SPECIES LENGTH WEIGHT DDT
-## 33   TRM  280 SMBUFFALO     52   2302   3</code></pre>
-<pre class="r"><code># # Chebyshev’s theorem
+# l = mean(len)
+# l
+# s = sd(ddt$WEIGHT)
+# s
+# ddt[ddt$LENGTH &gt; 50,]
+# head(len)
+# 
+# ddt[ddt$SPECIES == &quot;SMBUFFALO&quot; &amp; ddt$LENGTH &gt; 50,]
+
+# Chebyshev’s theorem
 # k = 2
 # cheb = 1 - 1 / (k ^ 2)
 # cheb
 # 
 # # boxplot
-# boxplot(len, main = &quot;Length Boxplot&quot;, xlab = &quot;Length&quot;, col = &quot;black&quot;, horizontal = TRUE, notch = TRUE)
+# # boxplot(len, main = &quot;Length Boxplot&quot;, xlab = &quot;Length&quot;, col = &quot;black&quot;, horizontal = TRUE, notch = TRUE)
 # 
 # # z-score calculation
 # z = (len - mean(len)) / sd(len)
@@ -415,7 +401,10 @@ s</code></pre>
 # 
 # # R to calculate the exact proportion within 2 standard deviation of the mean.
 # exacttwo = length(len[abs(z) &lt; 2]) / length(len)
-# exacttwo</code></pre>
+# exacttwo
+y = (25-6)/4
+y</code></pre>
+<pre><code>## [1] 4.75</code></pre>
 
 
 
