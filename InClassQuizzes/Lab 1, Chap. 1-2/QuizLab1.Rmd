@@ -11,11 +11,70 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 # Read in data
-ddt <- read.csv("DDT.csv")
-head(ddt)
+dird="~/Desktop/MainFolder/OuClasses/Spring 2023/Applied Statistical Methods/FALL224753wise0046/CourseData/Data-for-the-course/K25936_Downloads/Excel/"
+library(readxl)
 
+files = list.files(dird)
+
+### Important Functions
+myconvert = function(xl) {
+  if(stringr::str_ends(xl, "XLS") | stringr::str_ends(xl, "xls")){
+  v=try(readxl::read_xls(paste0(dird, xl)), silent = TRUE)
+  }
+  else{
+    v = NA
+  }
+  v
+}
+getmode <- function(v) {
+   uniqv <- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+#P(Private|BL)
+81/153
+
+#P(Detect and Public)
+48/223
+
+#P(Private)
+103/223
+
+#P(Public or Detect)
+(22+48+72)/223
+# ddt <- read.csv("DDT.csv")
+# head(ddt)
+
+# Please plug in code so you don't troll
+
+# mtbe = myconvert("MTBE.XLS")
+# head(mtbe)
+
+# table(mtbe$MTBE-Detect) -> tab
+# addmargins(tab)
+
+
+
+
+
+# ddt[ddt$RIVER == "TRM" & ddt$LENGTH == 52,]
+# len = ddt$LENGTH
+# z = (len - mean(len)) / sd(len)
+# exacttwo = length(len[abs(z) < 2]) / length(len)
+
+
+
+
+
+
+################################################################################
 # QUIZ
-names(ddt)
+
+# with(ddt, table(RIVER)) -> tab
+# tab = with(ddt, table(RIVER))
+# barplot(tab)
+
+# names(ddt)
 
 # # Data Wrangling
 # ddt[ddt$RIVER == "TRM" & ddt$LENGTH == 52,]
@@ -24,7 +83,7 @@ names(ddt)
 # ddt[ddt$SPECIES == "LMBASS" & ddt$RIVER == "TRM" & ddt$LENGTH == 36,]
 
 # Finding the different manipulations of LENGTH in DDT (category LENGTH)
-len = ddt$LENGTH
+# len = ddt$LENGTH
 # l = mean(len)
 # l
 # s = sd(ddt$WEIGHT)

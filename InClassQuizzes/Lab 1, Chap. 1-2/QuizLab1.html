@@ -358,26 +358,80 @@ display: none;
 
 
 <pre class="r"><code># Read in data
-ddt &lt;- read.csv(&quot;DDT.csv&quot;)
-head(ddt)</code></pre>
-<pre><code>##   RIVER MILE  SPECIES LENGTH WEIGHT DDT
-## 1   FCM    5 CCATFISH   42.5    732  10
-## 2   FCM    5 CCATFISH   44.0    795  16
-## 3   FCM    5 CCATFISH   41.5    547  23
-## 4   FCM    5 CCATFISH   39.0    465  21
-## 5   FCM    5 CCATFISH   50.5   1252  50
-## 6   FCM    5 CCATFISH   52.0   1255 150</code></pre>
-<pre class="r"><code># QUIZ
-names(ddt)</code></pre>
-<pre><code>## [1] &quot;RIVER&quot;   &quot;MILE&quot;    &quot;SPECIES&quot; &quot;LENGTH&quot;  &quot;WEIGHT&quot;  &quot;DDT&quot;</code></pre>
-<pre class="r"><code># # Data Wrangling
+dird=&quot;~/Desktop/MainFolder/OuClasses/Spring 2023/Applied Statistical Methods/FALL224753wise0046/CourseData/Data-for-the-course/K25936_Downloads/Excel/&quot;
+library(readxl)
+
+files = list.files(dird)
+
+### Important Functions
+myconvert = function(xl) {
+  if(stringr::str_ends(xl, &quot;XLS&quot;) | stringr::str_ends(xl, &quot;xls&quot;)){
+  v=try(readxl::read_xls(paste0(dird, xl)), silent = TRUE)
+  }
+  else{
+    v = NA
+  }
+  v
+}
+getmode &lt;- function(v) {
+   uniqv &lt;- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+#P(Private|BL)
+81/153</code></pre>
+<pre><code>## [1] 0.5294118</code></pre>
+<pre class="r"><code>#P(Detect and Public)
+48/223</code></pre>
+<pre><code>## [1] 0.2152466</code></pre>
+<pre class="r"><code>#P(Private)
+103/223</code></pre>
+<pre><code>## [1] 0.4618834</code></pre>
+<pre class="r"><code>#P(Public or Detect)
+(22+48+72)/223</code></pre>
+<pre><code>## [1] 0.6367713</code></pre>
+<pre class="r"><code># ddt &lt;- read.csv(&quot;DDT.csv&quot;)
+# head(ddt)
+
+# Please plug in code so you don&#39;t troll
+
+# mtbe = myconvert(&quot;MTBE.XLS&quot;)
+# head(mtbe)
+
+# table(mtbe$MTBE-Detect) -&gt; tab
+# addmargins(tab)
+
+
+
+
+
+# ddt[ddt$RIVER == &quot;TRM&quot; &amp; ddt$LENGTH == 52,]
+# len = ddt$LENGTH
+# z = (len - mean(len)) / sd(len)
+# exacttwo = length(len[abs(z) &lt; 2]) / length(len)
+
+
+
+
+
+
+################################################################################
+# QUIZ
+
+# with(ddt, table(RIVER)) -&gt; tab
+# tab = with(ddt, table(RIVER))
+# barplot(tab)
+
+# names(ddt)
+
+# # Data Wrangling
 # ddt[ddt$RIVER == &quot;TRM&quot; &amp; ddt$LENGTH == 52,]
 # ddt[ddt$MILE == 5,]
 # ddt[ddt$SPECIES == &quot;CCATFISH&quot; &amp; ddt$WEIGHT &gt; 1700,]
 # ddt[ddt$SPECIES == &quot;LMBASS&quot; &amp; ddt$RIVER == &quot;TRM&quot; &amp; ddt$LENGTH == 36,]
 
 # Finding the different manipulations of LENGTH in DDT (category LENGTH)
-len = ddt$LENGTH
+# len = ddt$LENGTH
 # l = mean(len)
 # l
 # s = sd(ddt$WEIGHT)
@@ -401,10 +455,7 @@ len = ddt$LENGTH
 # 
 # # R to calculate the exact proportion within 2 standard deviation of the mean.
 # exacttwo = length(len[abs(z) &lt; 2]) / length(len)
-# exacttwo
-y = (25-6)/4
-y</code></pre>
-<pre><code>## [1] 4.75</code></pre>
+# exacttwo</code></pre>
 
 
 

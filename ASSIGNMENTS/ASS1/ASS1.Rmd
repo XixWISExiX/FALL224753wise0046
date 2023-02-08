@@ -264,6 +264,19 @@ When answering this question you will need to do most of the construction by han
 
  a. Construct a relative frequency histogram for the voltage readings of the old process. Fill out the table when constructing the Histogram in pt a). Then plot the histogram by first creating a vector, ’v’ say, of relative frequencies, then use names(v) and assign class names to each component, finally using barplot(v,space=0) make your plot.
  
+| Class | Interval        | Data | Frequency | Relative frequency
+| :-:   | :-:             | :-:  | :-:       | :-:
+|  1    |  (8.0000,8.2900]| 8.05 | 1         | 0.0333
+|  2    |  (8.2900,8.5800]| - | 0         | 0.0000
+|  3    |  (8.5800,8.8700]| 8.72, 8.72, 8.80 | 3         | 0.1000
+|  4    |  (8.8700,9.1600]| - | 0         | 0.0000
+|  5    |  (9.1600,9.4500]| - | 0         | 0.0000
+|  6    |  (9.4500,9.7500]| 9.55,9.70,9.73 | 3         | 0.1000
+|  7   |  (9.7500,10.0200]| 9.80,9.80,9.84,9.87,9.87,9.95,9.97,9.98,9.98,10.00,10.10,10.02 | 13        | 0.4333
+|  8    |  (10.0200,10.3100]| 10.03,10.05,10.5,10.12,10.15,10.15,10.26,10.26,10.29 | 9         | 0.3000
+|  9    |  (10.3100,10.6000]| 10.55 | 1         | 0.0333
+| Total | - | -  | 30        | 1
+ 
 ```{r}
 old <- subset(voltage,subset=LOCATION=="OLD")
 vtn <- old$VOLTAGE
@@ -280,23 +293,8 @@ cl
 cvtn <- cut(vtn,breaks=cl)
 new.tab=table(cvtn)
 
-### Relative Frequency / Table
-a <- vtn[vtn > 8 & vtn <=8+inc]/nrow(old)
-b <- vtn[vtn > 8+inc & vtn <=8+inc*2]/nrow(old)
-c <- vtn[vtn > 8+inc*2 & vtn <=8+inc*3]/nrow(old)
-d <- vtn[vtn > 8+inc*3 & vtn <=8+inc*4]/nrow(old)
-e <- vtn[vtn > 8+inc*4 & vtn <=8+inc*5]/nrow(old)
-f <- vtn[vtn > 8+inc*5 & vtn <=8+inc*6]/nrow(old)
-g <- vtn[vtn > 8+inc*6 & vtn <=8+inc*7]/nrow(old)
-h <- vtn[vtn > 8+inc*7 & vtn <=8+inc*8]/nrow(old)
-i <- vtn[vtn > 8+inc*8 & vtn <=8+inc*9]/nrow(old)
-v = c(a, b, c, d, e, f, g, h, i)
-barplot(v,space=0)
-
 # Barplot
-barplot(new.tab,space=0,main="Frequency Histogram (OLD)",las=2)
-hist(vtn,nclass=10)
-
+barplot(new.tab/sum(new.tab),space=0,main="Frequency Histogram (OLD)",las=2)
 old = voltage[voltage$LOCATION == "OLD",]$VOLTAGE
 ```
  
@@ -323,8 +321,8 @@ cl <- seq(lept, rept,by=inc)
 cl
 cvtn <- cut(vtn,breaks=cl)
 new.tab=table(cvtn)
-barplot(new.tab,space=0,main="Frequency Histogram (NEW)",las=2)
-hist(vtn,nclass=10)
+
+barplot(new.tab/sum(new.tab),space=0,main="Frequency Histogram (NEW)",las=2)
 
 new = voltage[voltage$LOCATION == "NEW",]$VOLTAGE
 ```
