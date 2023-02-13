@@ -11,9 +11,9 @@
 
 <meta name="author" content="Joshua Wiseman" />
 
-<meta name="date" content="2023-01-25" />
+<meta name="date" content="2023-01-27" />
 
-<title>Quiz1</title>
+<title>QuizLab1</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,33 +350,238 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Quiz1</h1>
+<h1 class="title toc-ignore">QuizLab1</h1>
 <h4 class="author">Joshua Wiseman</h4>
-<h4 class="date">2023-01-25</h4>
+<h4 class="date">2023-01-27</h4>
 
 </div>
 
 
-<pre class="r"><code>ddt &lt;- read.csv(&quot;DDT.csv&quot;)
-ddt[ddt$RIVER == &quot;TRM&quot; &amp; ddt$LENGTH == 52,]</code></pre>
-<pre><code>##    RIVER MILE   SPECIES LENGTH WEIGHT DDT
-## 24   TRM  275  CCATFISH     52   1770 8.2
-## 33   TRM  280 SMBUFFALO     52   2302 3.0</code></pre>
-<pre class="r"><code>ddt[ddt$MILE == 5,]</code></pre>
-<pre><code>##   RIVER MILE  SPECIES LENGTH WEIGHT DDT
-## 1   FCM    5 CCATFISH   42.5    732  10
-## 2   FCM    5 CCATFISH   44.0    795  16
-## 3   FCM    5 CCATFISH   41.5    547  23
-## 4   FCM    5 CCATFISH   39.0    465  21
-## 5   FCM    5 CCATFISH   50.5   1252  50
-## 6   FCM    5 CCATFISH   52.0   1255 150</code></pre>
-<pre class="r"><code>ddt[ddt$SPECIES == &quot;CCATFISH&quot; &amp; ddt$WEIGHT &gt; 1700,]</code></pre>
-<pre><code>##    RIVER MILE  SPECIES LENGTH WEIGHT DDT
-## 24   TRM  275 CCATFISH     52   1770 8.2
-## 28   TRM  280 CCATFISH     51   1728 6.6</code></pre>
-<pre class="r"><code>ddt[ddt$SPECIES == &quot;LMBASS&quot; &amp; ddt$RIVER == &quot;TRM&quot; &amp; ddt$LENGTH == 36,]</code></pre>
-<pre><code>##     RIVER MILE SPECIES LENGTH WEIGHT DDT
-## 144   TRM  345  LMBASS     36   1433 1.9</code></pre>
+<pre class="r"><code># Read in data
+dird=&quot;~/Desktop/MainFolder/OuClasses/Spring 2023/Applied Statistical Methods/FALL224753wise0046/CourseData/Data-for-the-course/K25936_Downloads/Excel/&quot;
+library(readxl)
+
+files = list.files(dird)
+
+### Important Functions
+myconvert = function(xl) {
+  if(stringr::str_ends(xl, &quot;XLS&quot;) | stringr::str_ends(xl, &quot;xls&quot;)){
+  v=try(readxl::read_xls(paste0(dird, xl)), silent = TRUE)
+  }
+  else{
+    v = NA
+  }
+  v
+}
+getmode &lt;- function(v) {
+   uniqv &lt;- unique(v)
+   uniqv[which.max(tabulate(match(v, uniqv)))]
+}
+
+v &lt;- read.csv(&quot;SEEDLING.csv&quot;)
+
+
+
+
+
+
+
+
+
+
+
+
+df = v
+df</code></pre>
+<pre><code>##    PlantID       Type Abundance Reproduction SeedWt Diaspore
+## 1        1 DwarfShrub        SA           VE      2        3
+## 2        2 DwarfShrub        SR           VE      1        1
+## 3        3 DwarfShrub        SA           VP      1        1
+## 4        4 DwarfShrub        SA           VE      4        4
+## 5        5 DwarfShrub        SR           VP      5        4
+## 6        6 DwarfShrub        NS           VE      4        5
+## 7        7 DwarfShrub        SA           VP      1        1
+## 8        8 DwarfShrub        NS           VE     NA        4
+## 9        9 DwarfShrub        SA           VP      1        2
+## 10      10 DwarfShrub        SR           VE      1        2
+## 11      11 DwarfShrub        NS           VE      1        2
+## 12      12 DwarfShrub        SR           VE      2        4
+## 13      13 DwarfShrub        SR           VE      2        4
+## 14      14      Herbs        SA           NV      2        5
+## 15      15      Herbs        SR           VE      1        2
+## 16      16      Herbs        SR           VE      1        2
+## 17      17      Herbs        SR           VE      1        2
+## 18      18      Herbs        SA           VI      4        1
+## 19      19      Herbs        SA           VE      2        3
+## 20      20      Herbs        SR           VE      1        1
+## 21      21      Herbs        SA           NV      2        1
+## 22      22      Herbs        SA           VP     NA        1
+## 23      23      Herbs        SA           VP      2        1
+## 24      24      Herbs        SA           VP     NA        1
+## 25      25      Herbs        SA           VP      1        1
+## 26      26      Herbs        SA           VP     NA        1
+## 27      27      Herbs        SA           NV      4        1
+## 28      28      Herbs        SA           VI      1        2
+## 29      29      Herbs        SA           NV     NA        2
+## 30      30      Herbs        SA           NV      3        2
+## 31      31      Herbs        SA           NV     NA        2
+## 32      32      Herbs        SA           NV      2        2
+## 33      33      Herbs        SA           NV     NA        2
+## 34      34      Herbs        SA           NV     NA        1
+## 35      35      Herbs        SA           VP      3        3
+## 36      36      Herbs        SR           VE      3        1
+## 37      37      Herbs        NS           VE     NA        2
+## 38      38      Herbs        SR           VE     NA       NA
+## 39      39      Herbs        SA           VP      3        1
+## 40      40      Herbs        SR           VE      1        1
+## 41      41      Herbs        SR           VE      1        1
+## 42      42      Herbs        SA           VP      4        5
+## 43      43      Herbs        SA           VP     NA        5
+## 44      44      Herbs        SA           NV      2        5
+## 45      45      Herbs        SA           NV      2        5
+## 46      46      Herbs        SA           NV      1        5
+## 47      47      Herbs        SA           VP      2        1
+## 48      48      Herbs        SR           VE      4        2
+## 49      49      Herbs        SA           VP      3        1
+## 50      50      Herbs        SA           VP      3        2
+## 51      51      Herbs        SA           NV      3        2
+## 52      52      Herbs        SA           VE      2        1
+## 53      53      Herbs        SR           VE      3        1
+## 54      54      Herbs        SA           NV      3        1
+## 55      55      Herbs        SA           VI      1        1
+## 56      56      Herbs        SA           NV      3        1
+## 57      57    Grasses        SA           VP      1        5
+## 58      58    Grasses        SA           VI      2        5
+## 59      59    Grasses        SR           VE      2        5
+## 60      60    Grasses        NS           VE     NA        5
+## 61      61    Grasses        SA           VE      3        1
+## 62      62    Grasses        SA           VP      2        1
+## 63      63    Grasses        SR           VE      4        1
+## 64      64    Grasses        SA           VE      2        5
+## 65      65    Grasses        SA           VP      2        5
+## 66      66    Grasses        SA           VI      1        1
+## 67      67    Grasses        SA           VI      2        1
+## 68      68    Grasses        SA           VP      2        1
+## 69      69    Grasses        SA           VP      2        1
+## 70      70    Grasses        SA           VP      2        5
+## 71      71    Grasses        SA           NV      2        5
+## 72      72    Grasses        SA           VP      2        5
+## 73      73    Grasses        SA           VP      2        5</code></pre>
+<pre class="r"><code>tt &lt;- table(df$Abundance,df$Type)
+att &lt;- addmargins(tt)
+att</code></pre>
+<pre><code>##      
+##       DwarfShrub Grasses Herbs Sum
+##   NS           3       1     1   5
+##   SA           5      14    32  51
+##   SR           5       2    10  17
+##   Sum         13      17    43  73</code></pre>
+<pre class="r"><code># 
+# 51/73
+# 
+# 14/51
+# 
+# (5+2+43)/73
+# 
+# (14)/73
+
+
+
+# seed = read.csv(&quot;SEEDLING.csv&quot;)
+# head(seed)
+# 
+# len = nrow(seed)
+# ns = sample(1:len, 30, replace = FALSE)
+# seed[ns,]
+# tt &lt;- list(seed)
+# tt
+
+# #P(Male)
+# 17/58
+# #P(Dose rad 1-10 | Female)
+# 18/41
+# #P(rad 11+ AND Female)
+# 10/58
+# #P(Dose rad less 1 OR Female)
+# (6+13+18+10)/58
+
+# #P(Private|BL)
+# 81/153
+# 
+# #P(Detect and Public)
+# 48/223
+# 
+# #P(Private)
+# 103/223
+# 
+# #P(Public or Detect)
+# (22+48+72)/223
+# ddt &lt;- read.csv(&quot;DDT.csv&quot;)
+# head(ddt)
+
+# Please plug in code so you don&#39;t troll
+
+# mtbe = myconvert(&quot;MTBE.XLS&quot;)
+# head(mtbe)
+
+# table(mtbe$MTBE-Detect) -&gt; tab
+# addmargins(tab)
+
+
+
+
+
+# ddt[ddt$RIVER == &quot;TRM&quot; &amp; ddt$LENGTH == 52,]
+# len = ddt$LENGTH
+# z = (len - mean(len)) / sd(len)
+# exacttwo = length(len[abs(z) &lt; 2]) / length(len)
+
+
+
+
+
+
+################################################################################
+# QUIZ
+
+# with(ddt, table(RIVER)) -&gt; tab
+# tab = with(ddt, table(RIVER))
+# barplot(tab)
+
+# names(ddt)
+
+# # Data Wrangling
+# ddt[ddt$RIVER == &quot;TRM&quot; &amp; ddt$LENGTH == 52,]
+# ddt[ddt$MILE == 5,]
+# ddt[ddt$SPECIES == &quot;CCATFISH&quot; &amp; ddt$WEIGHT &gt; 1700,]
+# ddt[ddt$SPECIES == &quot;LMBASS&quot; &amp; ddt$RIVER == &quot;TRM&quot; &amp; ddt$LENGTH == 36,]
+
+# Finding the different manipulations of LENGTH in DDT (category LENGTH)
+# len = ddt$LENGTH
+# l = mean(len)
+# l
+# s = sd(ddt$WEIGHT)
+# s
+# ddt[ddt$LENGTH &gt; 50,]
+# head(len)
+# 
+# ddt[ddt$SPECIES == &quot;SMBUFFALO&quot; &amp; ddt$LENGTH &gt; 50,]
+
+# Chebyshev’s theorem
+# k = 2
+# cheb = 1 - 1 / (k ^ 2)
+# cheb
+# 
+# # boxplot
+# # boxplot(len, main = &quot;Length Boxplot&quot;, xlab = &quot;Length&quot;, col = &quot;black&quot;, horizontal = TRUE, notch = TRUE)
+# 
+# # z-score calculation
+# z = (len - mean(len)) / sd(len)
+# head(z)
+# 
+# # R to calculate the exact proportion within 2 standard deviation of the mean.
+# exacttwo = length(len[abs(z) &lt; 2]) / length(len)
+# exacttwo</code></pre>
 
 
 

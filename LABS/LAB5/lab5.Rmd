@@ -1,0 +1,235 @@
+---
+title: "lab5"
+author: "Joshua Wiseman"
+date: "2023-02-12"
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+    theme: spacelab
+    highlight: pygments
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Task 1
+
+## Working Directory
+```{r}
+getwd()
+```
+
+
+# Task 2
+
+## mybin function
+```{r}
+mybin=function(iter=100,n=10, p=0.5){ 
+  # make a matrix to hold the samples initially filled with NA's
+  sam.mat=matrix(NA,nrow=n,ncol=iter, byrow=TRUE)
+  
+  #Make a vector to hold the number of successes in each trial
+  succ=c()
+  
+  for(i in 1:iter){
+    #Fill each column with a new sample
+    sam.mat[,i]=sample(c(1,0),n,replace=TRUE, prob=c(p,1-p))
+    
+    #Calculate a statistic from the sample (this case it is the sum)
+    succ[i]=sum(sam.mat[,i])
+  }
+  #Make a table of successes
+  succ.tab=table(factor(succ,levels=0:n))
+  
+  #Make a barplot of the proportions
+  iter.lab = paste0("iter = ", iter)
+  n.lab = paste0("n = ",n)
+  p.lab = paste0("p = ",p)
+  lab = paste0(iter.lab, n.lab, p.lab, sep=", ")
+  barplot(succ.tab/(iter), col=rainbow(n+1), main="Binomial simulation", xlab="Number of successes")
+  succ.tab/iter
+}
+```
+
+### 100 iterations Plot
+```{r}
+bin100 = mybin(iter = 100, n = 10, p = 0.7)
+```
+
+### 200 iterations Plot
+```{r}
+bin200 = mybin(iter = 200, n = 10, p = 0.7)
+```
+
+### 500 iterations Plot
+```{r}
+bin500 = mybin(iter = 500, n = 10, p = 0.7)
+```
+
+### 1000 iterations Plot
+```{r}
+bin1000 = mybin(iter = 1000, n = 10, p = 0.7)
+```
+
+### 10000 iterations Plot
+```{r}
+bin10000 = mybin(iter = 10000, n = 10, p = 0.7)
+```
+
+## 10000 iteration table
+```{r}
+names(bin10000) = 0:10
+bin10000
+```
+
+## Verify Values
+```{r}
+dbin.tab = round(dbinom(0:10, size = 10, prob = 0.7), 4)
+names(dbin.tab) = 0:10
+dbin.tab
+```
+
+# Task 3
+
+## Sample without Replacement
+```{r}
+marbles = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0)
+sample(marbles, size = 5, replace = FALSE, prob = NULL)
+```
+
+## Sample with Replacement
+```{r}
+sample(marbles, size = 5, replace = TRUE, prob = NULL)
+```
+
+## myhyper function
+```{r}
+myhyper=function(iter=100,N=20,r=12,n=5){
+  # make a matrix to hold the samples initially filled with NA's
+  sam.mat=matrix(NA,nr=n,nc=iter, byrow=TRUE)
+  #Make a vector to hold the number of successes over the trials
+  succ=c()
+  for( i in 1:iter){
+  #Fill each column with a new sample
+  sam.mat[,i]=sample(rep(c(1,0),c(r,N-r)),n,replace=FALSE)
+  #Calculate a statistic from the sample (this case it is the sum)
+  succ[i]=sum(sam.mat[,i])
+  }
+  #Make a table of successes
+  succ.tab=table(factor(succ,levels=0:n))
+  #Make a barplot of the proportions
+  barplot(succ.tab/(iter), col=rainbow(n+1), main="HYPERGEOMETRIC simulation", xlab="Number of successes")
+  succ.tab/iter
+}
+```
+
+### 100 iterations Plot
+```{r}
+hyper100 = myhyper(iter=100, n=5, N=20, r=12)
+```
+
+### 200 iterations Plot
+```{r}
+hyper200 = myhyper(iter=200,n=5, N=20,r=12)
+```
+
+### 500 iterations Plot
+```{r}
+hyper500 = myhyper(iter=500,n=5, N=20,r=12)
+```
+
+### 1000 iterations Plot
+```{r}
+hyper1000 = myhyper(iter=1000,n=5, N=20,r=12)
+```
+
+### 10000 iterations Plot
+```{r}
+hyper10000 = myhyper(iter=10000,n=5, N=20,r=12)
+```
+
+## 10000 iteration table
+```{r}
+names(hyper10000) = 0:5
+hyper10000
+```
+
+## Verify Values
+```{r}
+dhype = round(dhyper(x=0:5, m=12, n=8, k=5), 4)
+names(dhype) = 0:5
+dhype
+```
+
+# Task 4
+
+## What does mysample() do?
+```{r}
+mysample=function(n, iter=10,time=0.5){
+  for( i in 1:iter){
+    #make a sample
+    s=sample(1:10,n,replace=TRUE)
+    # turn the sample into a factor
+    sf=factor(s,levels=1:10)
+    #make a barplot
+    barplot(table(sf)/n,beside=TRUE,col=rainbow(10), 
+    main=paste("Example sample()", " iteration ", i, " n= ", n,sep="") ,
+    ylim=c(0,0.2)
+    )
+    
+    #release the table
+    Sys.sleep(time)
+  }
+}
+```
+The mysample function takes a vector n, number of iterations iter, and amount of time time. Basically it will sample 10 random samples from the vector, turn that sample to a factor, and then make barplot of that factor. Then the function will wait time time seconds and then loop iter-1 more times after the inital iteration.
+
+## Run Line
+```{r}
+# Original Line
+# mysample(n=1000, iter=30, time=1)
+# Changed Line
+mysample(n=1000, iter=1, time=0)
+```
+
+The line takes 30 seconds to run because it waits 1 second after each iteration, in this case 30 (30*1 = 30 seconds). But it also samples 10 random samples from the 1000 sided popultion vector.
+
+# ???Task 5
+
+## R Calculations
+
+### Calculation 1
+```{r}
+choose(8,4)
+```
+
+### ???Calculation 2
+```{r}
+
+```
+
+## More R Calculations
+
+### More Calculations 1
+```{r}
+1 - pnbinom(q=10-3,size=3,prob=0.4)
+```
+
+### ???More Calculations 2
+```{r}
+
+```
+
+
+# Task 6
+
+## Load Custom Package
+```{r}
+bin = BestRPackage::abin(100, 10, 0.5)
+bin
+```
+
+
+

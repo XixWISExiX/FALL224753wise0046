@@ -1,7 +1,7 @@
 ---
-title: "lab4"
+title: "Lab 4: MATH 4753"
 author: "Joshua Wiseman"
-date: "2023-02-06"
+date: "February 10, 2023"
 output: 
   html_document:
     toc: yes
@@ -14,19 +14,309 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Lab 4
+# Tasks
+
+### My Brain in STATS rn
+
+***ROCK AND ROLL MAN!!!***
+
+![](https://media.giphy.com/media/MCplYe40sDWVtG1IbZ/giphy.gif)
 
 ## Task 1
 
-WD
-
+### Working Directory
 ```{r}
 getwd()
 ```
 
 ## Task 2
 
+### Loading the Spruce Data File
 ```{r}
 spruce.df = read.csv("SPRUCE.csv")
-head(spruce.df)
+tail(spruce.df)
 ```
+
+## Task 3
+
+### Lowess Smoother Scatter Plot
+```{r}
+library(s20x)
+trendscatter(Height~BHDiameter, data = spruce.df, f = 0.5)
+```
+
+### Linear Model Object
+```{r}
+spruce.lm = with(spruce.df, lm(Height~BHDiameter))
+summary(spruce.lm)
+```
+
+### Finding Residuals
+```{r}
+height.res = residuals(spruce.lm)
+```
+
+### Finding Fitted Values
+```{r}
+height.fit = fitted(spruce.lm)
+```
+
+### Residuals vs Fitted Plot
+```{r}
+plot(height.res~height.fit)
+```
+
+### Residuals vs Fitted Scatter Plot
+```{r}
+trendscatter(height.res~height.fit)
+```
+
+### Shape of the Plot?
+What shape is seen in the plot? Compare it with the curve made with the trendscatter function (second line after Task3).
+`The shape of the Residuals vs Fitted Scatter Plot looks like a mound in`
+`comparison to a concave exponential curve seen in the Lowess Smoother`
+`Scatter Plot.`
+
+### Residual Plot
+```{r}
+plot(spruce.lm, which = 1)
+```
+
+### Check Normality
+```{r}
+normcheck(spruce.lm, shapiro.wilk = TRUE)
+```
+
+### Pvalue for Shapiro-Wilk Test
+What is the pvalue for the Shapiro-Wilk test? What is the NULL hypothesis in this case?
+`The p-value is 0.29. p-value is greater than 0.05, so the null hypothesis`
+`is accepted that the error is distributed normally.`
+
+### Linear Equation Evaluation
+```{r}
+round(mean(height.res), 4)
+```
+
+### Does the Line work?
+Write a sentence outlining your conclusions concerning the validity of applying the straight line to this data set.
+`No, we shouldn't use a straight line model. The shape of a concave down`
+`quadratic is different than a straight line by a long shot. Also the`
+`'noise' of the model is not close to that middle point at all.`
+
+## Task 4
+
+### Quadratic Linear Model
+```{r}
+quad.lm = lm(Height~BHDiameter + I(BHDiameter ^ 2),data = spruce.df)
+```
+
+### Quadratic Scatter Plot
+```{r}
+coef(quad.lm)
+plot(spruce.df)
+
+myplot = function(x){
+  quad.lm$coef[1] + quad.lm$coef[2] * x + quad.lm$coef[3] * x ^ 2
+}
+
+curve(myplot, lwd = 2, col = "steelblue", add = TRUE)
+```
+
+### Fitted Quadratic Model
+```{r}
+quad.fit = fitted(quad.lm)
+```
+
+### Residuals vs Fitted Plot
+```{r}
+plot(quad.lm, which = 1)
+```
+
+### Check Normality
+```{r}
+normcheck(quad.lm, shapiro.wilk = TRUE)
+```
+
+### Pvalue + Conclusion
+What is the value of the p-value in the Shapiro-Wilk test? What do you conclude?
+`The p-value is 0.684. Therefore the null hypothesis is accepted.`
+`There is not much of a trend going on, but the 'noise' for this model`
+`is way better than the previous.`
+
+## Task 5
+
+### Summarize quad.lm
+```{r}
+summary(quad.lm)
+```
+
+### Beta Hat Values
+$$\beta_0 = 0.860896$$
+$$\beta_1 = 1.469592$$
+$$\beta_2 = -0.027457$$
+
+### Interval Estimates
+```{r}
+ciReg(quad.lm)
+```
+
+### Fitted Line Equation
+$$0.860896 + 1.469592x - 0.027457x^2$$
+
+### Height Predictions
+```{r}
+predict(quad.lm, data.frame(BHDiameter = c(15, 18, 20)))
+```
+
+### Comparison
+```{r}
+predict(spruce.lm, data.frame(BHDiameter = c(15, 18, 20)))
+```
+
+### Multiple R-squared
+```{r}
+# Previous Model
+RSS1 = with(spruce.df, sum((Height-height.fit)^2))
+MSS1 = with(spruce.df, sum((height.fit-mean(Height))^2))
+TSS1 = with(spruce.df, sum((Height-mean(Height))^2))
+R1 = MSS1/TSS1
+R1
+
+# Current Model
+RSS2 = with(spruce.df, sum((Height-quad.fit)^2))
+MSS2 = with(spruce.df, sum((quad.fit-mean(Height))^2))
+TSS2 = with(spruce.df, sum((Height-mean(Height))^2))
+R2 = MSS2/TSS2
+R2
+```
+
+### Adjusted R squared
+###### Adjusted R-squared for Current Model:  0.7604
+###### Adjusted R-squared for Previous Model:  0.6468 
+The closer R^2 is to 1 the better, so the Current Model is "better".
+
+
+### Multiple R^2 Meaning
+What does multiple $R^2$ mean in this case?
+`This means the how close of a fit is the data to the line of the model.`
+`1 meaning all data points are on the line & 0 mean no data points are`
+`on the line.`
+
+### Best Model for Height
+Which model explains the most variability in the Height?
+```{r}
+data = 15:24
+predict20x(quad.lm,data.frame(BHDiameter = data, `I(BHDiameter)^2`=data^2))
+predict20x(spruce.lm,data.frame(BHDiameter = data))
+```
+
+`The previous model. Main reason being that the current model only works`
+`in the range between the lowest and highest BHDiameter value of the data set.`
+`While the previous model can more acurratly predict a data points outside`
+`of that range due to it being positive the whole time in comparision to`
+`the current model going negative at a big enough BHDiamter value.`
+
+### Anova Comparison + Conclusion
+```{r}
+anova(spruce.lm)
+anova(quad.lm)
+anova(spruce.lm, quad.lm)
+```
+From this comparison, we can conclude that the Current Model is better than this previous because the pvalue 0.0002269 *** is against H_0: beta2 = 0.
+
+### TSS + MSS + RSS
+```{r}
+#Previous Model
+TSS1
+MSS1
+RSS1
+# Current Model
+TSS2
+MSS2
+RSS2
+```
+
+### MSS/TSS
+```{r}
+# Previous Model
+MSS1/TSS2
+# CUrrent Model
+MSS2/TSS2
+```
+
+## Task 6
+
+### Cooks Plot
+```{r}
+cooks20x(quad.lm)
+```
+
+### Cooks Distance
+Google's Definition: Cook's distance is the scaled change in fitted values, which is useful for identifying outliers in the X values (observations for predictor variables). Cook's distance shows the influence of each observation on the fitted response values.
+`In the lab's case, this means that Cooks Distance will help us find BHDiameter`
+`outliers. In the plot, there looks like there is three. BHDiameter = 18, 21, &`
+`24.`
+
+### Making quad2.lm
+```{r}
+quad2.lm=lm(Height~BHDiameter + I(BHDiameter^2) , data=spruce.df[-24,])
+```
+
+### Summarize quade.lm
+```{r}
+summary(quad2.lm)
+```
+
+### Conclusion
+The action in getting rid of data with the highest datum cooks distance has resulted in a more accurate model. The reason being R^2 has increased even further to 0.8159.
+
+## Task 7
+
+### Proof
+Prove using latex that $y=\beta_0+\beta_1x+\beta_2(x-x_k)I(x>x_k)$ where I() is 1 when $x>x_k$ and 0 else.
+
+Suppose that for line 1 and line 2 we have the following formula
+
+$$\textit{l}1 : y = \beta_0+\beta_1x$$
+$$\textit{l}2 : y = \beta_0 + \delta + (\beta_1 + \zeta)x$$
+Then at the change point we have the two lines intersecting
+$$\beta_0 + \beta_1x_k = \beta_0 + \delta + (\beta_1 + \zeta)x_k$$
+Hence we have
+$$\delta = - \zeta x_k$$
+There fore we can write $\textit{l}2$ as
+$$y = \beta_0 + \zeta x_k + (\beta_1 + \zeta)x$$
+That is 
+$$y = \beta_0 + \beta_1x + \zeta(x-x_k)$$
+$\textit{l}2$ is $\textit{l}1$ with an adjustment term.
+
+We will introduce an indicator function that will be 1 when $x>x_k$ and 0 else.
+
+So
+$$y = \beta_0 + \beta_1x + \zeta(x-x_k)I(x>x_k)$$
+
+### Reproduce Plot
+Reproduce the above plot using the code included in the R script $(x_k=18)$, you may need to change some of the parameter values.
+```{r}
+sp2.df = within(spruce.df, X<-(BHDiameter-20)*(BHDiameter>20))
+
+lmp=lm(Height~BHDiameter + X,data=sp2.df)
+tmp=summary(lmp)
+myf = function(x,coef){
+  coef[1]+coef[2]*(x) + coef[3]*(x-18)*(x-18>0)
+}
+plot(spruce.df,main="Piecewise regression")
+curve(myf(x,coef=tmp$coefficients[,"Estimate"] ),add=TRUE, lwd=2,col="Blue")
+abline(v=18)
+text(18,16,paste("R sq.=",round(tmp$r.squared,4) ))
+```
+
+## Task 8
+
+### Load Custom Package
+```{r}
+library(BestRPackage)
+z = myz(1:4)
+z
+```
+This is myz function that I made and imported from BestRPackage (my personal package). Why? Because this is the BEST R PACKAGE of course! But what does myz function do? Well, it converts a vector of values to a vector of z-score values, which helps finds outliers in a data set.
+

@@ -31,17 +31,64 @@ getmode <- function(v) {
    uniqv[which.max(tabulate(match(v, uniqv)))]
 }
 
-#P(Private|BL)
-81/153
+v <- read.csv("SEEDLING.csv")
 
-#P(Detect and Public)
-48/223
 
-#P(Private)
-103/223
 
-#P(Public or Detect)
-(22+48+72)/223
+
+
+
+
+
+
+
+
+
+df = v
+df
+tt <- table(df$Abundance,df$Type)
+att <- addmargins(tt)
+att
+# 
+# 51/73
+# 
+# 14/51
+# 
+# (5+2+43)/73
+# 
+# (14)/73
+
+
+
+# seed = read.csv("SEEDLING.csv")
+# head(seed)
+# 
+# len = nrow(seed)
+# ns = sample(1:len, 30, replace = FALSE)
+# seed[ns,]
+# tt <- list(seed)
+# tt
+
+# #P(Male)
+# 17/58
+# #P(Dose rad 1-10 | Female)
+# 18/41
+# #P(rad 11+ AND Female)
+# 10/58
+# #P(Dose rad less 1 OR Female)
+# (6+13+18+10)/58
+
+# #P(Private|BL)
+# 81/153
+# 
+# #P(Detect and Public)
+# 48/223
+# 
+# #P(Private)
+# 103/223
+# 
+# #P(Public or Detect)
+# (22+48+72)/223
 # ddt <- read.csv("DDT.csv")
 # head(ddt)
 
