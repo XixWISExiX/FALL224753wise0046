@@ -1,6 +1,6 @@
 ---
-title: 'Ass 2: Template'
-author: "Your name"
+title: 'Assignment 2'
+author: "Joshua Wiseman"
 date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
 output: 
   html_document:
@@ -356,7 +356,7 @@ $$
 (-(0.6-4)*0.6/3)-(-(0.1-4)*0.1/3)
 ```
 
-## Q 15 IDK
+## Q 15
 `[3 marks] MS 5.10 - pg 196`
 Time a train is late. Refer to Exercise 5.5 (p. 191) The
 amount of time Y (in minutes) that a commuter train is late
@@ -370,24 +370,42 @@ f(y) =
 $$
   a. Find the mean and variance of the amount of time in
 minutes the train is late.
+$$f(y) = \frac{3}{500} (25-y^2) \,dy$$
+$$E(y) = \mu = \frac{3}{500} \int_{-5}^{5} (25y-y^3) \,dy$$
+$$E(y) = \mu = \frac{3}{500}[\frac{25y^2}{2}-\frac{y^4}{4}] \Big|_{-5}^{5}$$
 ```{r}
+3/500*((25*(5)^2/2-(5)^4/4)-(25*(-5)^2/2-(-5)^4/4))
+```
 
+$$E(y^2) = \frac{3}{500}[\frac{25y^3}{3}-\frac{y^5}{5}] \Big|_{-5}^{5}$$
+```{r}
+#Tried to do something else, failed, but it does get the base answer right for a.
+var <- function(y = 1){
+  return (3/500*((25*(y*5)^3/3-(y*5)^5/5)-(25*(-5*y)^3/3-(-5*y)^5/5)))
+}
+var()
 ```
 
   b. Find the mean and variance of the amount of time in
 hours the train is late.
 ```{r}
-
+#E(y/60)
+0
+#E(y/60)^2
+5/3600
 ```
 
   c. Find the mean and variance of the amount of time in
 seconds the train is late.
 ```{r}
-
+#E(60y)
+0
+#E(60y)^2
+3600*5
 ```
 
 
-## Q 16 IDK
+## Q 16
 `[3 marks] MS 5.36 - pg 205`
 Alkalinity of river water. The alkalinity level of water specimens collected from the Han River in Seoul, Korea, has
 a mean of 50 milligrams per liter and a standard deviation
@@ -399,20 +417,20 @@ has an alkalinity level
 
   a. exceeding 45 milligrams per liter.
 ```{r}
-
+1-pnorm((45-50)/3.2)
 ```
   
   b. below 55 milligrams per liter.
 ```{r}
-
+pnorm((55-50)/3.2)
 ```
   
   c. between 51 and 52 milligrams per liter.
 ```{r}
-
+pnorm((52-50)/3.2)-pnorm((51-50)/3.2)
 ```
 
-## Q 17 IDK
+## Q 17
 `[5 marks] MS 5.38- pg 205`
 NHTSA crash safety tests. Refer to the National Highway
 Traffic Safety Administration (NHTSA) crash test data for
@@ -426,28 +444,28 @@ data and the driver’s head injury rating is observed.
   a. Find the probability that the rating will fall between
 500 and 700 points.
 ```{r}
-
+pnorm((700-605)/185)-pnorm((500-605)/185)
 ```
 
   b. Find the probability that the rating will fall between
 400 and 500 points.
 ```{r}
-
+pnorm((500-605)/185)-pnorm((400-605)/185)
 ```
 
   c. Find the probability that the rating will be less than 850 points.
 ```{r}
-
+pnorm((850-605)/185)
 ```
   
   d. Find the probability that the rating will exceed 1,000
 points.
 ```{r}
-
+1-pnorm((1000-605)/185)
 ```
 
   e. What rating will only 10% of the crash-tested cars
 exceed?
 ```{r}
-
+605+185*qnorm(0.9)
 ```

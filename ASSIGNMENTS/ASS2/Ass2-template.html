@@ -9,10 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Your name" />
+<meta name="author" content="Joshua Wiseman" />
 
 
-<title>Ass 2: Template</title>
+<title>Assignment 2</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -2779,8 +2779,8 @@ border-radius: 0px;
 
 
 
-<h1 class="title toc-ignore">Ass 2: Template</h1>
-<h4 class="author">Your name</h4>
+<h1 class="title toc-ignore">Assignment 2</h1>
+<h4 class="author">Joshua Wiseman</h4>
 <h4 class="date">Thursday, February 23, 2023</h4>
 
 </div>
@@ -3158,8 +3158,8 @@ f(y) =
 <pre class="r"><code>(-(0.6-4)*0.6/3)-(-(0.1-4)*0.1/3)</code></pre>
 <pre><code>## [1] 0.55</code></pre>
 </div>
-<div id="q-15-idk" class="section level2">
-<h2>Q 15 IDK</h2>
+<div id="q-15" class="section level2">
+<h2>Q 15</h2>
 <p><code>[3 marks] MS 5.10 - pg 196</code> Time a train is late. Refer
 to Exercise 5.5 (p. 191) The amount of time Y (in minutes) that a
 commuter train is late is a continuous random variable with probability
@@ -3170,16 +3170,43 @@ f(y) =
     0 \quad \quad \quad \quad \quad \quad \text{elsewhere}
 \end{cases}
 \]</span> a. Find the mean and variance of the amount of time in minutes
-the train is late.</p>
+the train is late. <span class="math display">\[f(y) = \frac{3}{500}
+(25-y^2) \,dy\]</span> <span class="math display">\[E(y) = \mu =
+\frac{3}{500} \int_{-5}^{5} (25y-y^3) \,dy\]</span> <span class="math display">\[E(y) = \mu =
+\frac{3}{500}[\frac{25y^2}{2}-\frac{y^4}{4}] \Big|_{-5}^{5}\]</span></p>
+<pre class="r"><code>3/500*((25*(5)^2/2-(5)^4/4)-(25*(-5)^2/2-(-5)^4/4))</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p><span class="math display">\[E(y^2) =
+\frac{3}{500}[\frac{25y^3}{3}-\frac{y^5}{5}] \Big|_{-5}^{5}\]</span></p>
+<pre class="r"><code>#Tried to do something else, failed, but it does get the base answer right for a.
+var &lt;- function(y = 1){
+  return (3/500*((25*(y*5)^3/3-(y*5)^5/5)-(25*(-5*y)^3/3-(-5*y)^5/5)))
+}
+var()</code></pre>
+<pre><code>## [1] 5</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
-<li><p>Find the mean and variance of the amount of time in hours the
-train is late.</p></li>
-<li><p>Find the mean and variance of the amount of time in seconds the
-train is late.</p></li>
+<li>Find the mean and variance of the amount of time in hours the train
+is late.</li>
 </ol>
+<pre class="r"><code>#E(y/60)
+0</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>#E(y/60)^2
+5/3600</code></pre>
+<pre><code>## [1] 0.001388889</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Find the mean and variance of the amount of time in seconds the
+train is late.</li>
+</ol>
+<pre class="r"><code>#E(60y)
+0</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>#E(60y)^2
+3600*5</code></pre>
+<pre><code>## [1] 18000</code></pre>
 </div>
-<div id="q-16-idk" class="section level2">
-<h2>Q 16 IDK</h2>
+<div id="q-16" class="section level2">
+<h2>Q 16</h2>
 <p><code>[3 marks] MS 5.36 - pg 205</code> Alkalinity of river water.
 The alkalinity level of water specimens collected from the Han River in
 Seoul, Korea, has a mean of 50 milligrams per liter and a standard
@@ -3188,13 +3215,23 @@ Engineering, Sept. 1, 2000.) Assume the distribution of alkalinity
 levels is approximately normal and find the probability that a water
 specimen collected from the river has an alkalinity level</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>exceeding 45 milligrams per liter.</p></li>
-<li><p>below 55 milligrams per liter.</p></li>
-<li><p>between 51 and 52 milligrams per liter.</p></li>
+<li>exceeding 45 milligrams per liter.</li>
 </ol>
+<pre class="r"><code>1-pnorm((45-50)/3.2)</code></pre>
+<pre><code>## [1] 0.9409149</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>below 55 milligrams per liter.</li>
+</ol>
+<pre class="r"><code>pnorm((55-50)/3.2)</code></pre>
+<pre><code>## [1] 0.9409149</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>between 51 and 52 milligrams per liter.</li>
+</ol>
+<pre class="r"><code>pnorm((52-50)/3.2)-pnorm((51-50)/3.2)</code></pre>
+<pre><code>## [1] 0.1113448</code></pre>
 </div>
-<div id="q-17-idk" class="section level2">
-<h2>Q 17 IDK</h2>
+<div id="q-17" class="section level2">
+<h2>Q 17</h2>
 <p><code>[5 marks] MS 5.38- pg 205</code> NHTSA crash safety tests.
 Refer to the National Highway Traffic Safety Administration (NHTSA)
 crash test data for new cars, introduced in Exercise 2.74 (p. 70) and
@@ -3207,17 +3244,33 @@ with a mean of 605 points and a standard deviation of 185 points. One of
 the crash-tested cars is randomly selected from the data and the
 driver’s head injury rating is observed.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Find the probability that the rating will fall between 500 and
-700 points.</p></li>
-<li><p>Find the probability that the rating will fall between 400 and
-500 points.</p></li>
-<li><p>Find the probability that the rating will be less than 850
-points.</p></li>
-<li><p>Find the probability that the rating will exceed 1,000
-points.</p></li>
-<li><p>What rating will only 10% of the crash-tested cars
-exceed?</p></li>
+<li>Find the probability that the rating will fall between 500 and 700
+points.</li>
 </ol>
+<pre class="r"><code>pnorm((700-605)/185)-pnorm((500-605)/185)</code></pre>
+<pre><code>## [1] 0.4110396</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Find the probability that the rating will fall between 400 and 500
+points.</li>
+</ol>
+<pre class="r"><code>pnorm((500-605)/185)-pnorm((400-605)/185)</code></pre>
+<pre><code>## [1] 0.1512568</code></pre>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Find the probability that the rating will be less than 850
+points.</li>
+</ol>
+<pre class="r"><code>pnorm((850-605)/185)</code></pre>
+<pre><code>## [1] 0.9073023</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Find the probability that the rating will exceed 1,000 points.</li>
+</ol>
+<pre class="r"><code>1-pnorm((1000-605)/185)</code></pre>
+<pre><code>## [1] 0.01637499</code></pre>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>What rating will only 10% of the crash-tested cars exceed?</li>
+</ol>
+<pre class="r"><code>605+185*qnorm(0.9)</code></pre>
+<pre><code>## [1] 842.087</code></pre>
 </div>
 </div>
 
