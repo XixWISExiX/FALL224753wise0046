@@ -14,6 +14,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Rar
+Among Us Drip. I thought it was funny, idk.
+
+![](https://media.giphy.com/media/4kWeXCB5jqCPJsmDWw/giphy-downsized-large.gif)
+
 # Task 1
 
 ## Working Directory
@@ -194,9 +199,9 @@ The mysample function takes a vector n, number of iterations iter, and amount of
 mysample(n=1000, iter=1, time=0)
 ```
 
-The line takes 30 seconds to run because it waits 1 second after each iteration, in this case 30 (30*1 = 30 seconds). But it also samples 10 random samples from the 1000 sided popultion vector.
+The line takes 30 seconds to run because it waits 1 second after each iteration, in this case 30 (30*1 = 30 seconds). But it also samples 10 random samples from the 1000 sided population vector.
 
-# ???Task 5
+# Task 5
 
 ## R Calculations
 
@@ -205,21 +210,25 @@ The line takes 30 seconds to run because it waits 1 second after each iteration,
 choose(8,4)
 ```
 
-### ???Calculation 2
+### Calculation 2
 ```{r}
-
+1-ppois(4, lambda = 2)
 ```
 
 ## More R Calculations
 
 ### More Calculations 1
 ```{r}
-1 - pnbinom(q=10-3,size=3,prob=0.4)
+# dnbinom(x=10-3,size=3,prob=0.4)
+mynbin=function(y,r,p){
+choose(y-1,r-1)*p^r*(1-p)^(y-r)
+}
+mynbin(10,3,0.4)
 ```
 
-### ???More Calculations 2
+### More Calculations 2
 ```{r}
-
+pbinom(8, 15, 0.4)
 ```
 
 
@@ -231,5 +240,34 @@ bin = BestRPackage::abin(100, 10, 0.5)
 bin
 ```
 
-
+# Task 7
+```{r}
+negBinomialDistribution=function(iter=100,n=10, p=0.5){ 
+  # make a matrix to hold the samples initially filled with NA's
+  sam.mat=matrix(NA,nrow=n,ncol=iter, byrow=TRUE)
+  
+  #Make a vector to hold the number of successes in each trial
+  succ=c()
+  
+  for(i in 1:iter){
+    #Fill each column with a new sample
+    sam.mat[,i]=sample(c(1,0),n,replace=TRUE, prob=c(p,1-p))
+    
+    #Calculate a statistic from the sample (this case it is the sum)
+    succ[i]=sum(sam.mat[,i])
+  }
+  #Make a table of successes
+  fail.tab=table(factor(n-succ,levels=0:n))
+  
+  #Make a barplot of the proportions
+  iter.lab = paste0("iter = ", iter)
+  n.lab = paste0("n = ",n)
+  p.lab = paste0("p = ",p)
+  lab = paste0(iter.lab, n.lab, p.lab, sep=", ")
+  barplot(fail.tab/(iter), col=rainbow(n+1), main="Neg Binomial simulation", xlab="Number of successes")
+  fail.tab/iter
+}
+negBinomialDistribution(100, 10, 0.7)
+```
+I think this is right, if not, at least I tried.
 

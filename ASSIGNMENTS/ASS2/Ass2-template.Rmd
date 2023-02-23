@@ -1,0 +1,453 @@
+---
+title: 'Ass 2: Template'
+author: "Your name"
+date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
+output: 
+  html_document:
+    df_print: paged
+    fig_caption: true
+    highlights: pygments
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE, fig.align='center'}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Questions{}
+
+## Q 1
+`[3 marks] MS 3.36 pg 105-106`
+
+Fingerprint expertise. Software engineers are working on
+developing a fully automated fingerprint identification algorithm. Currently, expert examiners are required to identify the person who left the fingerprint. A study published
+in Psychological Science (August, 2011) tested the accuracy of experts and novices in identifying fingerprints.
+Participants were presented pairs of fingerprints and asked
+to judge whether the prints in each pair matched. The pairs
+were presented under three different conditions: prints
+from the same individual (match condition), non-matching
+but similar prints (similar distracter condition), and non-
+matching and very dissimilar prints (non-similar distracter condition). The percentages of correct decisions
+made by the two groups under each of the three conditions
+are listed in the table.
+
+  a. Given a pair of matched prints, what is the probability
+that an expert will fail to identify the match?
+```{r}
+1-0.9212
+```
+
+
+  b. Given a pair of matched prints, what is the probability that a novice will fail to identify the match?
+```{r}
+1-0.7455
+```
+
+  c. Assume the study included 10 participants, 5 experts
+and 5 novices. Suppose that a pair of matched prints are
+presented to a randomly selected study participant and
+the participant fails to identify the match. Is the participant more likely to be an expert or a novice?
+`novice`
+
+## Q 2
+`[3 marks] MS 3.52 - pg 111`
+
+Drug testing in athletes. Due to inaccuracies in drug testing procedures (e.g., false positives and false negatives), in the medical field the results of a drug test represent only one factor in a physician’s diagnosis. Yet when Olympic athletes are tested for illegal drug use (i.e., doping), the results of a single test are used to ban the athlete from competition. In Chance (Spring 2004), University of Texas
+biostatisticians D. A. Berry and L. Chastain demonstrated
+the application of Bayes’ Rule for making inferences
+about testosterone abuse among Olympic athletes. They
+used the following example. In a population of 1,000 athletes, suppose 100 are illegally using testosterone. Of the
+users, suppose 50 would test positive for testosterone. Of
+the nonusers, suppose 9 would test positive.
+
+  a. Given the athlete is a user, find the probability that a drug test for testosterone will yield a positive result. This probability represents the sensitivity of the drug test.
+```{r}
+50/100
+```
+  
+  b. Given the athlete is a nonuser, find the probability that a drug test for testosterone will yield a negative result.(This probability represents the specificity of the drug test.)
+```{r}
+1-(9/(1000-100))
+```
+  
+  c. If an athlete tests positive for testosterone, use Bayes’ Rule to find the probability that the athlete is really doping. (This probability represents the positive predictive value of the drug test.)
+```{r}
+(50/100)*(100/1000)/(59/1000)
+```
+
+## Q 3
+`[1 marks] MS Theorem 3.1 - pg 113 Prove the theorem in your own words.`
+
+The multiplicative rule helps to calculate the probability of two or more independent events with the formula P(A and B) = P(A) * P(B). For example P(heads and rolling a 5 on a 6 headed die) = P(heads) * P(rolling a 5 on a 6 headed die) = 1/2 * 1/6 = 1/12.
+
+## Q 4
+`[1 marks] MS Theorem 3.2 - pg 114 Prove the theorem in your own words.`
+
+The permutation rule helps to calculate the number of ways you can manipulate the number of arrangements which follow a certain order with the formula nPr = n(n-1)(n-2)...(1). For example you have 5 distinct letters, but want to arrange 3 letters in a specific order, then the equation would be as follows, nPr = 5P3 = 5\*4*3 = 60
+
+## Q 5
+`[1 marks] MS Theorem 3.3 - pg 116 Prove the theorem in your own words.`
+
+The partitions rule helps to calculate the number of ways to partition a set of objects. You can partition a set of n distince objects into k non-empty subsets with the formula S(n,k) = $\frac{n!}{n_1!n_2!...n_k!}$. For example you have 4 distinct objects and you want to divide them into 2 groups. Then you would use the partitions rule in this case.
+
+## Q 6
+`[1 marks] MS Theorem 3.4 - pg 117 Prove the theorem in your own words.`
+
+The combinations rule helps to calculate the number of way to select r objects from a set of n distinct objects with the formula C(n,r) = n!/[(n-r)*r!]. For exmaple you have 6 distinct balls and want to select 3 of them without care for the order. You would get C(6,3).
+
+## Q 7
+`[3 marks] MS 4.2 - pg 138`
+
+Dust mite allergies. A dust mite allergen level that exceeds 2 micrograms per gram ($\mu$g/g) of dust has been associated
+with the development of allergies. Consider a random
+sample of four homes and let Y be the number of homes
+with a dust mite level that exceeds 2 $\mu$g/g. The probability
+distribution for Y = y, based on a study by the National
+Institute of Environmental Health Sciences, is shown in
+the following table.
+
+  a. Verify that the probabilities for Y in the table sum to 1.
+```{r}
+0.09+0.30+0.37+0.20+0.04
+```
+  
+  b. Find the probability that three or four of the homes in the sample have a dust mite level that exceeds 2 $\mu$g/g.
+```{r}
+0.20+0.04
+```
+  
+  c. Find the probability that fewer than two homes in the
+sample have a dust mite level that exceeds 2 $\mu$g/g.
+```{r}
+0.09+0.30
+```
+
+## Q 8
+`[4 marks] MS 4.12 - pg 143`
+
+Downloading “apps” to your cell phone. According to an
+August, 2011 survey by the Pew Internet & American Life
+Project, nearly 40% of adult cell phone owners have
+downloaded an application (“app”) to their cell phone.
+The accompanying table gives the probability distribution
+for Y, the number of “apps” used at least once a week by
+cell phone owners who have downloaded an “app” to their
+phone. (The probabilities in the table are based on infor-
+mation from the Pew Internet & American Life Project
+survey.)
+
+  a. Show that the properties of a probability distribution
+for a discrete random variable are satisfied.
+```{r}
+0.17+0.10+0.11+0.11+0.10+0.10+0.07+0.05+0.03+0.02+0.02+0.02+0.02+0.02+0.01+0.01+0.01+0.01+0.01+0.005+0.005
+```
+
+  b. Find $P(Y \geq 10)$.
+```{r}
+0.02+0.02+0.02+0.02+0.01+0.01+0.01+0.01+0.01+0.005+0.005
+```
+  
+  c. Find the mean and variance of Y.
+```{r}
+tab = c(0.17,0.10,0.11,0.11,0.10,0.10,0.07,0.05,0.03,0.02,0.02,0.02,0.02,0.02,0.01,0.01,0.01,0.01,0.01,0.005,0.005)
+# Mean
+taby <- 0:20
+tabMean = sum(tab*taby)
+tabMean
+
+# Variance
+sqtaby <- sum(taby^2*tab)
+tot <- sqtaby-(tabMean^2)
+tot
+```
+  
+  d. Give an interval that will contain the value of Y with a probability of at least .75.
+[$\mu$ - 2$\sigma$, $\mu$ + 2$\sigma$]
+```{r}
+sig <- sum(sqrt((tab*taby-tabMean)^2/(sum(taby))))
+tabMean-2*sig
+tabMean+2*sig
+```
+  
+## Q 9
+`[4 marks] MS 4.34 - pg 154`
+
+PhD’s in engineering. The National Science Foundation
+reports that 70% of the U.S. graduate students who earn
+PhD degrees in engineering are foreign nationals. Consider
+the number Y of foreign students in a random sample of 25
+engineering students who recently earned their PhD.
+
+  a. Find P($Y = 10$).
+```{r}
+dbinom(10,25,0.7)
+```
+  
+  b. Find P($Y \leq 5$).
+```{r}
+pbinom(5,25,0.7)
+```
+  
+  c. Find the mean $\mu$ and standard deviation $\sigma$ for Y.
+```{r}
+# mu
+ForeignMean <- 25*0.7
+ForeignMean
+
+# sigma
+ForeignSigma <- sqrt(25*0.7*0.3)
+ForeignSigma
+```
+  
+  d. Interpret the results, part c.
+  
+The mean amount of students which are foreign is 70% of the random sample, 25. The standard deviation from this mean is 2.291288. So basically most of the foreign PHD students range in between these numbers.
+```{r}
+# Bottom
+ForeignMean - 3 * ForeignSigma
+
+# Top
+ForeignMean + 3 * ForeignSigma
+```
+
+
+## Q 10
+`[2 marks] MS 4.46 - pg 158`
+
+Railway track allocation. Refer to the Journal of Transportation Engineering (May, 2013) investigation of the assignment of tracks to trains at a busy railroad station,
+Exercise 2.8 (p. 28). Ideally, engineers will assign trains to
+tracks in order to minimize waiting time and bottlenecks.
+Assume there are 10 tracks at the railroad station and the
+trains will be randomly assigned to a track. Suppose that
+in a single day there are 50 trains that require track
+assignment.
+
+  a. What is the probability that exactly 5 trains are assigned to each of the 10 tracks?
+```{r}
+dmultinom(10,10,0.1)
+vec1 <- vector("integer", 10)+0.1
+vec2 <- c(50, 45, 40, 35, 30, 25, 20, 15, 10, 5)
+dmultinom(vec2,sum(vec2),vec1)
+```
+
+  b. A track is considered underutilized if fewer than 2
+trains are assigned to the track during the day. Find the
+probability that Track #1 is underutilized.
+```{r}
+9^50/10^50+50*9^40/10^50
+```
+
+## Q 11
+`[2 marks] MS 4.54 - pg 162`
+
+Is a product “green”? Refer to the ImagePower Green
+Brands Survey of international consumers, Exercise 3.4
+(p. 84). Recall that a “green” product is one built from re-
+cycled materials that has minimal impact on the environment. The reasons why a consumer identifies a product as
+green are summarized in the next table. Consider inter-
+viewing consumers, at random. Let Y represent the number of consumers who must be interviewed until one
+indicates something other than information given directly
+on the product’s label or packaging as the reason a product
+is green.
+
+  a. Give a formula for the probability distribution of Y.
+  
+(1-p)^(k-1)p
+
+  b. What is E(Y)? Interpret the result.
+```{r}
+1/0.40
+```
+  
+  c. Find P(Y = 1).
+```{r}
+(1-0.40)^(1-1)*0.40
+```
+  
+  d. Find P(Y > 2).
+```{r}
+1-0.4-0.6*0.4
+```
+
+## Q 12
+`[2 marks] MS 4.66 - pg 168`
+
+On-site disposal of hazardous waste. The Resource Conservation and Recovery Act mandates the tracking and disposal of hazardous waste produced at U.S. facilities.
+Professional Geographer (Feb. 2000) reported the hazardous waste generation and disposal characteristics of
+209 facilities. Only eight of these facilities treated hazardous waste on-site.
+
+  a. In a random sample of 10 of the 209 facilities, what is
+the expected number in the sample that treats hazardous waste on-site? Interpret this result.
+```{r}
+10*8/209
+```
+
+  b. Find the probability that 4 of the 10 selected facilities
+treat hazardous waste on-site.
+```{r}
+choose(8,4)*choose(209-8, 10-4)/choose(209, 10)
+```
+
+## Q 13
+`[3 marks] MS 4.78 - pg 173`
+
+Deep-draft vessel casualties. Engineers at the University
+of New Mexico modeled the number of casualties (deaths
+or missing persons) experienced by a deep-draft U.S. flag
+vessel over a 3-year period as a Poisson random variable,
+Y. The researchers estimated E(Y) to be .03. (Management
+Science, Jan. 1999.)
+
+  a. Find the variance of Y.
+```{r}
+0.03
+```
+  
+  b. Discuss the conditions that would make the researchers’ Poisson assumption plausible.
+  
+The probability of observing events over a small interval is proportional to the size of that interval.
+The probability of two events occurring in the same narrow interval is not important.
+The probability of an event within a certain interval is independent.
+
+  c. What is the probability that a deep-draft U.S. flag vessel will have no casualties in a 3-year time period?
+```{r}
+0.03^0*exp(-0.03)/1
+```
+
+## Q 14
+`[4 marks] MS 5.2 - pg 191`
+
+Let c be a constant and consider the density function for
+the random variable Y:
+$$
+f(y) = 
+\begin{cases}
+    c(2-y) \quad \text{if } 0\leq y \leq 1\\
+    0 \quad \quad \quad \quad \text{elsewhere}
+\end{cases}
+$$
+  a. Find the value of c.
+$$c\int_{0}^{1} (2-y) \,dy = 1$$
+```{r}
+2/3
+```
+  
+  b. Find the cumulative distribution function F(y).
+$$\frac{2}{3}\int_{0}^{1} (2-y) \,dy$$
+$$
+f(y) = 
+\begin{cases}
+    0 \quad \quad \quad \quad  y < 0\\
+    \frac{-(y-4)y}{3} \quad 0\leq y \leq 1\\
+    0 \quad \quad \quad \quad y > 1
+\end{cases}
+$$
+  
+  c. Compute F(.4).
+```{r}
+-(0.4-4)*0.4/3
+```
+  
+  d. Compute P(.1 $\leq$ Y $\leq$ .6).
+```{r}
+(-(0.6-4)*0.6/3)-(-(0.1-4)*0.1/3)
+```
+
+## Q 15 IDK
+`[3 marks] MS 5.10 - pg 196`
+Time a train is late. Refer to Exercise 5.5 (p. 191) The
+amount of time Y (in minutes) that a commuter train is late
+is a continuous random variable with probability density
+$$
+f(y) = 
+\begin{cases}
+    \frac{3}{500}(25-y^2) \quad \text{if } -5\leq y \leq 5\\
+    0 \quad \quad \quad \quad \quad \quad \text{elsewhere}
+\end{cases}
+$$
+  a. Find the mean and variance of the amount of time in
+minutes the train is late.
+```{r}
+
+```
+
+  b. Find the mean and variance of the amount of time in
+hours the train is late.
+```{r}
+
+```
+
+  c. Find the mean and variance of the amount of time in
+seconds the train is late.
+```{r}
+
+```
+
+
+## Q 16 IDK
+`[3 marks] MS 5.36 - pg 205`
+Alkalinity of river water. The alkalinity level of water specimens collected from the Han River in Seoul, Korea, has
+a mean of 50 milligrams per liter and a standard deviation
+of 3.2 milligrams per liter. (Environmental Science &
+Engineering, Sept. 1, 2000.) Assume the distribution of
+alkalinity levels is approximately normal and find the
+probability that a water specimen collected from the river
+has an alkalinity level
+
+  a. exceeding 45 milligrams per liter.
+```{r}
+
+```
+  
+  b. below 55 milligrams per liter.
+```{r}
+
+```
+  
+  c. between 51 and 52 milligrams per liter.
+```{r}
+
+```
+
+## Q 17 IDK
+`[5 marks] MS 5.38- pg 205`
+NHTSA crash safety tests. Refer to the National Highway
+Traffic Safety Administration (NHTSA) crash test data for
+new cars, introduced in Exercise 2.74 (p. 70) and saved in
+the CRASH file. One of the variables measured is the
+severity of a driver’s head injury when the car is in a head-on collision with a fixed barrier while traveling at 35 miles per hour. The more points assigned to the head injury rating, the more severe the injury. The head injury ratings can be shown to be approximately normally distributed with a
+mean of 605 points and a standard deviation of 185 points.
+One of the crash-tested cars is randomly selected from the
+data and the driver’s head injury rating is observed.
+
+  a. Find the probability that the rating will fall between
+500 and 700 points.
+```{r}
+
+```
+
+  b. Find the probability that the rating will fall between
+400 and 500 points.
+```{r}
+
+```
+
+  c. Find the probability that the rating will be less than 850 points.
+```{r}
+
+```
+  
+  d. Find the probability that the rating will exceed 1,000
+points.
+```{r}
+
+```
+
+  e. What rating will only 10% of the crash-tested cars
+exceed?
+```{r}
+
+```

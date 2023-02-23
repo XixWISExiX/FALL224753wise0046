@@ -15,8 +15,7 @@ myconvert = function(xl) {
   v
 }
 
-mtbe <- myconvert("MTBE.XLS")
-# table(rows, columns)
-tt <- table(mtbe$WellClass, mtbe$`MTBE-Detect`)
-att <- addmargins(tt)
-att
+
+
+# eggs <- myconvert("EGGS.XLS")
+# head(eggs)

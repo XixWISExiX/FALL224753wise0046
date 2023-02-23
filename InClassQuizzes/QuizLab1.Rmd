@@ -1,5 +1,5 @@
 ---
-title: "QuizLab1"
+title: "test"
 author: "Joshua Wiseman"
 date: "2023-01-27"
 output: html_document
@@ -44,11 +44,51 @@ v <- read.csv("SEEDLING.csv")
 
 
 
-df = v
-df
-tt <- table(df$Abundance,df$Type)
-att <- addmargins(tt)
-att
+
+
+# 1-pbinom(11,20,0.4)
+# pbinom(9,20,0.4)-pbinom(3,20,0.4)
+# qbinom(0.8724788,20,0.4)
+# qbinom(1-0.5841071,20,0.4)
+
+# # Y ~ Bin(n=20,p=0.7)
+# 1-pbinom(10,20,0.7)
+# pbinom(9,20,0.7)
+# dbinom(17,20,0.7)
+
+
+# dbinom(6,10,0.5)
+# pbinom(6,10,0.5)-pbinom(3,10,0.5)
+# 1-pbinom(6,10,0.5)
+# pbinom(7,10,0.5)
+
+# mtbe <- myconvert("MTBE.XLS")
+# mtbe
+# # table(rows, columns)
+# tt <- table(mtbe$WellClass, mtbe$`MTBE-Detect`)
+# att <- addmargins(tt)
+# att
+# 
+# (103+48)/223
+# 
+# 70/223
+# 
+# 72/153
+# 
+# 48/223
+
+
+
+
+# df = v
+# df
+# tt <- table(df$Abundance,df$Type)
+# att <- addmargins(tt)
+# att
+
+
+
+
 # 
 # 51/73
 # 
