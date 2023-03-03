@@ -44,7 +44,10 @@ v <- read.csv("SEEDLING.csv")
 
 
 
-
+# 1-pnorm(12,10,5)
+# dnorm(18,10,5) #This is the height, the volume is 0
+# pnorm(14,10,5)-pnorm(8,10,5)
+# qnorm(0.6,10,5)
 
 # 1-pbinom(11,20,0.4)
 # pbinom(9,20,0.4)-pbinom(3,20,0.4)

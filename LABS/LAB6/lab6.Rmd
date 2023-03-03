@@ -1,0 +1,255 @@
+---
+title: "lab6"
+author: "Joshua Wiseman"
+date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
+output: 
+  html_document:
+    df_print: paged
+    fig_caption: true
+    highlights: pygments
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![](https://media.giphy.com/media/jpbnoe3UIa8TU8LM13/giphy.gif)
+
+# Task 1
+
+## Working Directory
+```{r}
+getwd()
+```
+
+# Task 2
+
+## Plot 4 normal curves (standard deviations)
+```{r}
+layout(matrix(1:4,nr=2,nc=2))
+curve(dnorm(x, mean=10,sd=4),xlim=c(10-3*4,10+3*4))
+curve(dnorm(x, mean=10,sd=2),xlim=c(10-3*2,10+3*2))
+curve(dnorm(x, mean=5,sd=10),xlim=c(5-3*10,5+3*10))
+curve(dnorm(x, mean=5,sd=0.5),xlim=c(5-3*0.5,5+3*0.5))
+```
+
+## Plot Regions and Probabilities (pnorm)
+```{r}
+curve(dnorm(x, mean=0,sd=1),xlim=c(0-3,0+3))
+xcurve <- seq(2, 3, length=1000)
+ycurve <- dnorm(xcurve, 0, 1)
+polygon(c(2, xcurve, 3), c(0,ycurve,0), col="Red")
+area <- 1-pnorm(2,0,1)
+area <- round(area,4)
+text(5,0.2, paste0("Area= ",area))
+
+curve(dnorm(x, mean=4,sd=2),xlim=c(4-3*2,4+3*2))
+xcurve <- seq(1, 5, length=1000)
+ycurve <- dnorm(xcurve, 4, 2)
+polygon(c(1, xcurve, 5), c(0,ycurve,0), col="Red")
+area <- pnorm(5,4,2)-pnorm(1,4,2)
+area <- round(area,4)
+text(8,0.2, paste0("Area= ",area))
+
+curve(dnorm(x, mean=10,sd=4),xlim=c(10-3*4,10+3*4))
+xcurve <- seq(10-3*4, 10, length=1000)
+ycurve <- dnorm(xcurve, 10, 4)
+polygon(c(10-3*4, xcurve, 10), c(0,ycurve,0), col="Red")
+area <- pnorm(10,10,4)
+area <- round(area,4)
+text(5,0.2, paste0("Area= ",area))
+
+curve(dnorm(x, mean=-2,sd=0.5),xlim=c(-2-3*0.5,-2+3*0.5))
+xcurve <- seq(-3, -2, length=1000)
+ycurve <- dnorm(xcurve, -2, 0.5)
+polygon(c(-3, xcurve, -2), c(0,ycurve,0), col="Red")
+area <- pnorm(-2,-2,0.5)-pnorm(-3,-2,0.5)
+area <- round(area,4)
+text(5,0.2, paste0("Area= ",area))
+```
+
+# Task 3
+
+## Three Gamma Plots
+```{r}
+curve(dgamma(x,shape=1,scale=1),xlim=c(0,10),ylim=c(0,1),col="Red",lwd=2,
+ylab="Gamma density", main="Beta=1")
+curve(dgamma(x,shape=3,scale=1),xlim=c(0,10),ylim=c(0,1),add=TRUE,lwd=2)
+curve(dgamma(x,shape=5,scale=1),xlim=c(0,10),ylim=c(0,1),add=TRUE, col="Blue",lwd=2)
+```
+
+## Plot Regions and Probabilities (pgamma)
+```{r}
+curve(dgamma(x,shape=3,scale=2),xlim=c(0,10),ylim=c(0,0.2),col="Red",lwd=2,
+ylab="Gamma density", main="Beta=2")
+xcurve <- seq(2, 5, length=1000)
+ycurve <- dgamma(xcurve,shape=3,scale=2)
+polygon(c(2, xcurve, 5), c(0,ycurve,0), col="Red")
+area <- pgamma(5,shape=3,scale=2)-pgamma(2,shape=3,scale=2)
+area <- round(area,4)
+text(5,0.2, paste0("Area= ",area))
+
+curve(dgamma(x,shape=6,scale=3),xlim=c(0,10),ylim=c(0,0.1),col="Red",lwd=2,
+ylab="Gamma density", main="Beta=3")
+xcurve <- seq(1, 4, length=1000)
+ycurve <- dgamma(xcurve,shape=6,scale=3)
+polygon(c(1, xcurve, 4), c(0,ycurve,0), col="Red")
+area <- pgamma(4,shape=6,scale=3)-pgamma(1,shape=6,scale=3)
+area <- round(area,4)
+text(5,0.2, paste0("Area= ",area))
+
+curve(dgamma(x,shape=2,scale=4),xlim=c(0,10),ylim=c(0,0.2),col="Red",lwd=2,
+ylab="Gamma density", main="Beta=4")
+xcurve <- seq(3, 6, length=1000)
+ycurve <- dgamma(xcurve,shape=2,scale=4)
+polygon(c(3, xcurve, 6), c(0,ycurve,0), col="Red")
+area <- pgamma(6,shape=2,scale=4)-pgamma(3,shape=2,scale=4)
+area <- round(area,4)
+text(5,0.2, paste0("Area= ",area))
+```
+
+# Task 4
+
+## Plot 4 (chi-squares)
+```{r}
+curve(dchisq(x,df=1),xlim=c(0,10),ylim=c(0,1),col="Red",lwd=2,
+ylab="Chisq density", main="df=1,2,4,20")
+curve(dchisq(x,df=2),xlim=c(0,10),ylim=c(0,1),col="Blue",lwd=2,
+ylab="Chisq density",add=TRUE)
+curve(dchisq(x,df=4),xlim=c(0,10),ylim=c(0,1),col="Black",lwd=2,
+ylab="Chisq density",add=TRUE)
+curve(dchisq(x,df=20),xlim=c(0,10),ylim=c(0,1),col="Green",lwd=2,
+ylab="Chisq density",add=TRUE)
+```
+
+## Plot Regions and Probabilities (chi-squares)
+```{r}
+curve(dchisq(x,df=2),xlim=c(0,10),ylim=c(0,1),col="Red",lwd=2,
+ylab="Chisq density", main="df=2")
+xcurve <- seq(2, 4, length=1000)
+ycurve <- dchisq(xcurve,2)
+polygon(c(2, xcurve, 4), c(0,ycurve,0), col="Red")
+area <- dchisq(4,2)-dchisq(2,2)
+area <- round(area,4)
+text(5,0.2, paste0("Area= ",area))
+
+curve(dchisq(x,df=3),xlim=c(0,10),ylim=c(0,1),col="Red",lwd=2,
+ylab="Chisq density", main="df=3")
+xcurve <- seq(3, 5, length=1000)
+ycurve <- dchisq(xcurve,3)
+polygon(c(3, xcurve, 5), c(0,ycurve,0), col="Red")
+area <- dchisq(5,3)-dchisq(3,3)
+area <- round(area,4)
+text(5,0.2, paste0("Area= ",area))
+
+curve(dchisq(x,df=20),xlim=c(5,26),ylim=c(0,1),col="Red",lwd=2,
+ylab="Chisq density", main="df=20")
+xcurve <- seq(10, 21, length=1000)
+ycurve <- dchisq(xcurve,20)
+polygon(c(10, xcurve, 21), c(0,ycurve,0), col="Red")
+area <- dchisq(21,20)-dchisq(10,20)
+area <- round(area,4)
+text(10,0.2, paste0("Area= ",area))
+```
+
+# Task 5
+
+## Plot 4 (Weibull)
+```{r}
+layout(matrix(1:4,nr=2,nc=2))
+curve(dweibull(x, shape=8, scale=2),xlim=c(0,10))
+curve(dweibull(x, shape=5, scale=5),xlim=c(0,10))
+curve(dweibull(x, shape=2, scale=8),xlim=c(0,10))
+curve(dweibull(x, shape=3, scale=9),xlim=c(0,10))
+```
+
+## Plot Regions and Probabilities (Weibull)
+```{r}
+curve(dweibull(x, shape=5, scale=5),xlim=c(0,10), ylab="dwibull density", main="Beta=3")
+xcurve <- seq(4, 7, length=1000)
+ycurve <- dweibull(xcurve,shape=5,scale=5)
+polygon(c(4, xcurve, 7), c(0,ycurve,0), col="Red")
+area <- pweibull(7, shape=5, scale=5)-pweibull(4, shape=5, scale=5)
+area <- round(area,4)
+text(10,0.2, paste0("Area= ",area))
+
+curve(dweibull(x, shape=8, scale=2),xlim=c(0,10), ylab="dwibull density", main="Beta=3")
+xcurve <- seq(1, 2, length=1000)
+ycurve <- dweibull(xcurve,shape=8,scale=2)
+polygon(c(1, xcurve, 2), c(0,ycurve,0), col="Red")
+area <- pweibull(2, shape=8, scale=2)-pweibull(1, shape=8, scale=2)
+area <- round(area,4)
+text(10,0.2, paste0("Area= ",area))
+
+curve(dweibull(x, shape=2, scale=8),xlim=c(0,10), ylab="dwibull density", main="Beta=3")
+xcurve <- seq(1, 4, length=1000)
+ycurve <- dweibull(xcurve,shape=2,scale=8)
+polygon(c(1, xcurve, 4), c(0,ycurve,0), col="Red")
+area <- pweibull(4, shape=2, scale=8)-pweibull(1, shape=2, scale=8)
+area <- round(area,4)
+text(10,0.2, paste0("Area= ",area))
+```
+
+# Task 6
+
+## Plot 4 (Beta distribution)
+```{r}
+layout(matrix(1:4,nr=2,nc=2))
+curve(dbeta(x,13,20),xlim=c(0,10))
+curve(dbeta(x,20,13),xlim=c(0,10))
+curve(dbeta(x,2,2),xlim=c(0,10))
+curve(dbeta(x,5,1),xlim=c(0,10))
+```
+
+## Plot Regions and Probabilities (Beta distribution)
+```{r}
+curve(dbeta(x,13,20),xlim=c(0,10))
+xcurve <- seq(0, 0.75, length=1000)
+ycurve <- dbeta(xcurve,13,20)
+polygon(c(0, xcurve, 0.75), c(0,ycurve,0), col="Red")
+area <- pbeta(0.75,13,20)-pbeta(0,13,20)
+area <- round(area,4)
+text(8,0.2, paste0("Area= ",area))
+
+curve(dbeta(x,2,2),xlim=c(0,10))
+xcurve <- seq(0, 0.25, length=1000)
+ycurve <- dbeta(xcurve,2,2)
+polygon(c(0, xcurve, 0.25), c(0,ycurve,0), col="Red")
+area <- pbeta(0.25,2,2)-pbeta(0,2,2)
+area <- round(area,4)
+text(8,0.2, paste0("Area= ",area))
+
+curve(dbeta(x,5,1),xlim=c(0,10))
+xcurve <- seq(0, 1, length=1000)
+ycurve <- dbeta(xcurve,5,1)
+polygon(c(0, xcurve, 1), c(0,ycurve,0), col="Red")
+area <- pbeta(1,5,1)-pbeta(0,5,1)
+area <- round(area,4)
+text(8,0.2, paste0("Area= ",area))
+```
+
+# Task 7
+
+## notmyncurve()
+```{r}
+notmyncurve = function(a, mu, sigma){
+  curve(dnorm(x,mean=mu,sd=sigma), xlim = c(mu-3*sigma, mu + 3*sigma))
+  xcurve <- seq(mu-3*sigma, a, length=1000)
+  ycurve <- dnorm(xcurve, mu, sigma)
+  polygon(c(mu-3*sigma, xcurve, a), c(0,ycurve,0), col="Red")
+  area <- pnorm(a,mu,sigma)
+  area <- round(area,4)
+  text(mu+2*sigma,0.2, paste0("Area= ",area))
+}
+notmyncurve(12, 10, 2)
+```
+
+## myncurve()
+```{r}
+BestRPackage::myncurve(a=9,mu=10,sigma=2)
+```
+

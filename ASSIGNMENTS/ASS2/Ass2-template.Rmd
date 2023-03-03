@@ -342,7 +342,7 @@ f(y) =
 \begin{cases}
     0 \quad \quad \quad \quad  y < 0\\
     \frac{-(y-4)y}{3} \quad 0\leq y \leq 1\\
-    0 \quad \quad \quad \quad y > 1
+    1 \quad \quad \quad \quad y > 1
 \end{cases}
 $$
   
