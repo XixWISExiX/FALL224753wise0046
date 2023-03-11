@@ -1,0 +1,78 @@
+---
+title: "Project1"
+author: "Joshua Wiseman"
+date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
+output: 
+  html_document:
+    df_print: paged
+    fig_caption: true
+    highlights: pygments
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Project 1
+
+## ntickets Function
+```{r}
+ntickets <- function(N,gamma,p){
+  # Discrete n calculation (discrete distribution)
+  ind <- which(N == qbinom(1-gamma,N:(N*(1+(1-p))),p))
+  nd <- c(N:(N*(1+(1-p))))[ind]
+  
+  # Continuous n calculation (normal approximation)
+  nc <- qnorm(1-p, (N*0.1+N)*p, sqrt((N*0.1+N)*p*(1-p)))
+  
+  # Random function to enable optimize
+  f <- function(x){x}
+  
+  # Discrete function plot
+  x <- seq(N,N*0.1+N,by = 1)
+  y <- 1-pbinom(N,x,p)
+  plot(x, y, xlim = c(N, N*0.1+N), lwd = 1, xlab = "n", ylab = "Objective", pch = 23, bg = "blue", type = "b")
+  op <- optimize(f, interval = c(0,1))
+  op
+  abline(v = nd , h = 0, col = "red")
+  title(main = paste0("Objective Vs n to find optimal tickets sold\n(",nd,") gamma= ", gamma," N=",N," discrete"))
+  
+  # Continuous function plot
+  curve(1-gamma-pnorm(N+0.5, x*p, sqrt(x*p*(1-p))), xlim = c(N, N*0.1+N), lwd = 1, xlab = "n", ylab = "Objective")
+  op <- optimize(f, interval = c(0,1))
+  op
+  abline(v = nc , h = 0, col = "blue")
+  title(main = paste0("Objective Vs n to find optimal tickets sold\n(",nc,") gamma= ", gamma," N=",N," continuous"))
+  
+  # List of values
+  list(nc = nc, nd = nd, N = N, p = p, gamma = gamma)
+}
+```
+
+## ntickets Function call
+```{r}
+# Function call
+tab <- ntickets(N=400, gamma=0.02, p=0.95)
+tab
+```
+
+## Package build result
+* checking examples ... OK
+* checking PDF version of manual ... OK
+* DONE
+Status: OK
+
+
+R CMD check succeeded
+
+I couldn't get the check marks to pop up, but their were no error as seen above. When I messed up the builds and it would result in either a warning, or a note for the Status.
+
+## nTickets Function call (package)
+```{r}
+BestRPackage::nTickets(400, 0.02, 0.95)
+```
+

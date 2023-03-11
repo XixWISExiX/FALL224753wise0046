@@ -31,7 +31,14 @@ getmode <- function(v) {
    uniqv[which.max(tabulate(match(v, uniqv)))]
 }
 
-v <- read.csv("SEEDLING.csv")
+ddt <- read.csv("DDT-1.csv")
+head(ddt)
+# mtbe <- read.csv("MTBE.csv")
+# epagas <- read.csv("EPAGAS.csv")
+# # head(mtbe)
+# tab <- table(mtbe$WellClass, mtbe$`MTBE-Detect`)
+# addmargins(tab)
+# tab
 
 
 
@@ -42,7 +49,10 @@ v <- read.csv("SEEDLING.csv")
 
 
 
-
+# TRUE
+# pbeta(0.7,2,4)
+# TRUE
+# FALSE
 
 # 1-pnorm(12,10,5)
 # dnorm(18,10,5) #This is the height, the volume is 0
