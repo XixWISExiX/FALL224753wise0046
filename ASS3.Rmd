@@ -1,0 +1,325 @@
+---
+title: "ASS3"
+author: "Joshua Wiseman"
+date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
+output: 
+  html_document:
+    df_print: paged
+    fig_caption: true
+    highlights: pygments
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Questions{}
+
+## Q 1 NOT DONE
+`MS 5.54 - pg 215`
+Phishing attacks to email accounts. Refer to the Chance
+(Summer, 2007) article on phishing attacks at a company,
+Exercise 2.24 (p. 38). Recall that phishing describes an attempt to extract personal/financial information through
+fraudulent email. The company set up a publicized email
+account—called a “fraud box”—which enabled employees to notify them if they suspected an email phishing attack. If there is minimal or no collaboration or collusion
+from within the company, the interarrival times (i.e., the
+time between successive email notifications, in seconds)
+have an approximate exponential distribution with a mean
+of 95 seconds.
+
+  a. What is the probability of observing an interarrival
+time of at least 2 minutes?
+
+  b. Data for a sample of 267 interarrival times are saved in
+the PHISHING file. Do the data appear to follow an
+exponential distribution with $\beta$ = 95?
+
+## Q 2 NOT DONE
+`MS 5.56 - pg 215`
+Flood level analysis. Researchers have discovered that the
+maximum flood level (in millions of cubic feet per sec-
+ond) over a 4-year period for the Susquehanna River at
+Harrisburg, Pennsylvania, follows approximately a gamma
+distribution with $\alpha$ = 3 and $\beta$ = .07 (Journal of Quality
+Technology, Jan. 1986).
+
+  a. Find the mean and variance of the maximum flood
+level over a 4-year period for the Susquehanna River.
+
+  b. The researchers arrived at their conclusions about the
+maximum flood level distribution by observing maxi-
+mum flood levels over 4-year periods, beginning in 1890. Suppose that over the next 4-year period the
+maximum flood level was observed to be .60 million
+cubic feet per second. Would you expect to observe a
+value this high from a gamma distribution with $\alpha$ = 3
+and $\beta$ = .07? What can you infer about the maximum
+flood level distribution for the 4-year period observed?
+
+## Q 3 NOT DONE
+`MS 5.60 - pg 216`
+Reaction to tear gas. The length of time Y (in minutes) re-
+quired to generate a human reaction to tear gas formula A
+has a gamma distribution with $\alpha$ = 2 and $\beta$ = 2. The dis-
+tribution for formula B is also gamma, but with $\alpha$ = 1 and
+$\beta$ = 4.
+
+  a. Find the mean length of time required to generate a
+human reaction to tear gas formula A. Find the mean
+for formula B.
+
+  b. Find the variances for both distributions.
+
+  c. Which tear gas has a higher probability of generating a
+human reaction in less than 1 minute? (Hint: You may
+use the fact that
+$\int ye^{-y/2} dy = -2ye^{-y/2} + \int 2e^{-y/2} dy$
+This result is derived by integration by parts.)
+
+## Q 4 NOT DONE
+`MS 5.74 - pg 219`
+Washing machine repair time. Based on extensive testing,
+a manufacturer of washing machines believes that the dis-
+tribution of the time Y (in years) until a major repair is re-
+quired has a Weibull distribution with $\alpha$ = 2 and $\beta$ = 4.
+
+  a. If the manufacturer guarantees all machines against a
+major repair for 2 years, what proportion of all new
+washers will have to be repaired under the guarantee?
+
+  b. Find the mean and standard deviation of the length of
+time until a major repair is required.
+  c. Find $P(\mu-2\sigma \leq Y \leq \mu + 2\sigma$.
+  
+  d. Is it likely that Y will exceed 6 years?
+  
+## Q 5 NOT DONE
+`MS 5.84 - pg 223`
+Laser color printer repairs. The proportion Y of a data-
+processing company’s yearly hardware repair budget allo-
+cated to repair its laser color printer has an approximate
+beta distribution with parameters $\alpha$ = 2 and $\beta$ = 9.
+
+  a. Find the mean and variance of Y.
+
+  b. Compute the probability that for any randomly selected
+year, at least 40% of the hardware repair budget is used
+to repair the laser color printer.
+
+  c. What is the probability that at most 10% of the yearly
+repair budget is used for the laser color printer?
+
+## Q 6 NOT DONE
+`MS 5.114 - pg 232`
+Lifelengths of memory chips. The lifelength Y (in years) of
+a memory chip in a laptop computer is a Weibull random
+variable with probability density
+$$
+f(y) = 
+\begin{cases}
+    \frac{1}{8}ye^{-y^2/16} \quad \text{if } 0\leq y < \infty\\
+    0 \quad \quad \quad \quad \quad \quad \text{elsewhere}
+\end{cases}
+$$
+
+  a. What are the values of $\alpha$ and $\beta$?
+  
+  b. Compute the mean and variance of Y.
+  
+  c. Find the probability that a new memory chip will not
+fail before 6 years.
+
+## Q 7 NOT DONE
+`MS 6.2 - pg 239`
+Tossing dice. Consider the experiment of tossing a pair of
+dice. Let X be the outcome (i.e., the number of dots appearing face up) on the first die and let Y be the outcome
+on the second die.
+
+  a. Find the joint probability distribution p(x, y).
+  
+  b. Find the marginal probability distributions $p_1(x)$ and
+$p_2(y)$.
+
+  c. Find the conditional probability distributions $p_1(x | y)$
+and $p_2(y | x)$.
+
+  d. Compare the probability distributions of parts b and c.
+What phenomenon have you observed?
+
+## Q 8 NOT DONE
+`MS 6.4 - pg 240`
+Modeling the behavior of granular media. Refer to the
+Engineering Computations: International Journal for
+Computer-Aided Engineering and Software (Vol. 30, No.
+2, 2013) study of the properties of granular media (e.g.,
+sand, rice, ball bearings, and flour), Exercise 3.62 (p. 120).
+The study assumes there is a system of N non-interacting
+granular particles, where the particles are grouped according to energy level, r. For this problem (as in Exercise
+3.62), assume that N = 7 and r = 3, then consider the
+scenario where there is one particle (of the total of 7 particles) at energy level 1, two particles at energy level 2, and
+four particles at energy level 3. Another feature of the particles studied was the position in time where the particle
+reached a certain entropy level during compression. All
+particles reached the desired entropy level at one of three
+time periods, 1, 2, or 3. Assume the 7 particles had the
+characteristics shown in the table. Consider a randomly
+selected particle and let X represent the energy level and Y
+the time period associated with particle.
+```{r, out.width = "400px"}
+knitr::include_graphics("Q8.png")
+```
+
+  a. Find the bivariate probability distribution, p(x, y).
+  
+  b. Find the marginal distribution, $p_1(x)$.
+  
+  c. Find the marginal distribution, $p_2(x)$.
+  
+  d. Find the conditional distribution, $p_2(y | x)$.
+
+## Q 9 NOT DONE
+`MS 6.12 - pg 244`
+Distribution of low bids. The Department of Transportation
+(DOT) monitors sealed bids for new road construction.
+For new access roads in a certain state, let X = low bid
+(thousands of dollars) and let Y = DOT estimate of fair
+cost of building the road (thousands of dollars). The joint
+probability density of X and Y is
+$$f(x, y) = \frac{e^{-y/10}}{10y},\hspace{8 mm} 0 < y < x < 2y$$
+
+  a. Find f(y), the marginal density function for Y. Do you
+recognize this distribution?
+
+  b. What is the mean DOT estimate, E(Y)?
+
+## Q 10 NOT DONE
+`MS 6.14 - pg 245`
+Servicing an automobile. The joint density of X, the total
+time (in minutes) between an automobile’s arrival in the
+service queue and its leaving the system after servicing,
+and Y, the time (in minutes) the car waits in the queue be-
+fore being serviced, is
+$$f(x,y) =
+\begin{cases}
+    ce^{-x^2} \quad \text{if } 0\leq y < x; 0 \leq x < \infty\\
+    0 \quad \quad \quad \text{elsewhere}
+\end{cases}$$
+
+a. Find the value of c that makes f(x, y) a probability density function.
+
+b. Find the marginal density for X and show that
+$$\int f_1(x)dx = 1$$
+
+c. Show that the conditional density for Y given X is a uniform distribution over the interval $0 \leq Y \leq X$.
+
+## Q 11 NOT DONE
+`MS 6.51 - pg 253`
+As an illustration of why the converse of Theorem 6.6 is not true, consider the joint distribution of two discrete random variables, X and Y, shown in the accompanying table.
+Show that Cov(X, Y) = 0, but that X and Y are dependent.
+```{r, out.width = "400px"}
+knitr::include_graphics("Q11.png")
+```
+
+## Q 12 NOT DONE
+`MS 6.74 - pg 269`
+Uranium in the Earth’s crust. Refer to the American Mineralogist (October 2009) study of the evolution of uranium minerals in the Earth’s crust, Exercise 5.17 (p. 199).
+Recall that researchers estimate that the trace amount of
+uranium Y in reservoirs follows a uniform distribution
+ranging between 1 and 3 parts per million. In a random
+sample of n = 60 reservoirs, let $\overline{Y}$ represent the sample
+mean amount of uranium.
+
+  a. Find $E(\overline{Y})$ and interpret its value.
+  
+  b. Find Var $\overline{Y}$.
+  
+  c. Describe the shape of the sampling distribution of $\overline{Y}$.
+  
+  d. Find the probability that $\overline{Y}$ is between 1.5 ppm and
+2.5 ppm.
+
+  e. Find the probability that $\overline{Y}$ exceeds 2.2 ppm.
+
+## Q 13 NOT DONE
+`MS 6.90 - pg 273`
+Mercury contamination of swordfish. Consumer Reports
+found widespread contamination of seafood in New York
+and Chicago supermarkets. For example, 40% of the
+swordfish pieces available for sale have a level of mercury
+above the Food and Drug Administration (FDA) limit.
+Consider a random sample of 20 swordfish pieces from
+New York and Chicago supermarkets.
+
+  a. Use the normal approximation to the binomial to calculate
+the probability that fewer than 2 of the 20 swordfish pieces
+have mercury levels exceeding the FDA limit.
+
+  b. Use the normal approximation to the binomial to calculate the probability that more than half of the 20 swordfish pieces have mercury levels exceeding the FDA limit.
+
+  c. Use the binomial tables to calculate the exact probabilities in parts a and b. Does the normal distribution provide a good approximation to the binomial distribution?
+
+## Q 14 NOT DONE
+`MS 7.108 - pg 362`
+Lead and copper in drinking water. Periodically, the
+Hillsborough County (Florida) Water Department tests
+the drinking water of homeowners for contaminants such
+as lead and copper. The lead and copper levels in water
+specimens collected for a sample of 10 residents of the
+Crystal Lake Manors subdivision are shown next.
+```{r, out.width = "400px"}
+knitr::include_graphics("Q14.png")
+```
+
+  a. Construct a 99% confidence interval for the mean
+lead level in water specimens from Crystal Lake
+Manors.
+
+  b. Construct a 99% confidence interval for the mean cop-
+per level in water specimens from Crystal Lake
+Manors.
+
+  c. Interpret the intervals, parts a and b, in the words of
+the problem.
+
+  d. Discuss the meaning of the phrase, “99% confident.”
+
+## Q 15 NOT DONE
+`MS 7.114 - pg 364`
+Solar irradiation study. The Journal of Environmental
+Engineering (Feb. 1986) reported on a heat transfer
+model designed to predict winter heat loss in wastewater
+treatment clarifiers. The analysis involved a comparison of
+clear-sky solar irradiation for horizontal surfaces at different sites in the Midwest. The day-long solar irradiation levels (in BTU/sq. ft.) at two midwestern locations
+of different latitudes (St. Joseph, Missouri, and Iowa
+Great Lakes) were recorded on each of seven clear-sky
+winter days. The data are given in the table. Find a 95%
+confidence interval for the mean difference between the
+day-long clear-sky solar irradiation levels at the two
+sites. Interpret the results.
+```{r, out.width = "400px"}
+knitr::include_graphics("Q15.png")
+```
+
+## Q 16 NOT DONE
+`MS 7.116 - pg 364`
+Diazinon residue in orchards. Pesticides applied to an extensively grown crop can result in inadvertent areawide air contamination. Environmental Science & Technology
+(Oct. 1993) reported on air deposition residues of the insecticide diazinon used on dormant orchards in the San
+Joaquin Valley, California. Ambient air samples were collected and analyzed at an orchard site for each of 11 days
+during the most intensive period of spraying. The levels
+of diazinon residue (in mg/m3) during the day and at night
+are recorded in the table. The researchers want to know
+whether the mean diazinon residue levels differ from day
+to night.
+```{r, out.width = "400px"}
+knitr::include_graphics("Q15.png")
+```
+
+  a. Analyze the data using a 90% confidence interval.
+  
+  b. What assumptions are necessary for the validity of the
+interval estimation procedure of part a?
+
+  c. Use the interval, part a, to answer the researchers’
+question.

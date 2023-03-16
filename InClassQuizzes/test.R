@@ -15,8 +15,14 @@ myconvert = function(xl) {
   v
 }
 
-mtbe <- read.csv("MTBE.csv")
-epagas <- read.csv("EPAGAS.csv")
+
+
+
+
+
+# mtbe <- read.csv("MTBE.csv")
+# epagas <- read.csv("EPAGAS.csv")
+
 # head(mtbe)
 
 
