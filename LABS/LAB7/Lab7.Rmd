@@ -136,7 +136,7 @@ hist(chisq2$w)
 
 # Task 5
 
-## Click wiht the mouse
+## Click with the mouse
 We don't have access to `locator` from within knitter, so you can't actually have myTsim2 place the legend at the location of your mouse. Instead I will just place the legend in an optimal spot.
 
 ## Explain the notation of student's T statistic
