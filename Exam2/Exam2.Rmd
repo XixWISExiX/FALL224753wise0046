@@ -1,0 +1,26 @@
+---
+title: "Exam2"
+author: "Joshua Wiseman"
+date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
+output: 
+  html_document:
+    df_print: paged
+    fig_caption: true
+    highlights: pygments
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# mtbe <- read.csv("MTBE.csv")
+# tab <- table(mtbe$WellClass, mtbe$Aquifier)
+# tab
+2+2
+```
+

@@ -25,26 +25,254 @@ output:
     highlight: tango
     toc: yes
     toc_depth: 4
-bibliography: project.bib
-abstract: This project is all about applications of SLR to real data using R
+bibliography: Primo.bib
+abstract: This project is all about applications of SLR to real data using R. The data used here is over the EGGS dataset and the main goal of this project is to find a predictor variable of the thickness of an egg so that a higher ratio of eggs can make it to market. What was found is that there is not enough data to confidently conclude that the trait of strength is a strong predictor of the thickness variable (due to lack of R^2 value, shape of the plots,  and most importantly the p-value not rejecting the null hypothesis). However, with a different model and more data the opposite could be the case.
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(leaflet)
-library(dplyr)
 ```
 
-```{r, include=FALSE}
-knitr::write_bib(file = 'packages.bib')
-```
+# Introduction of the Chicken Egg Problem :)
 
+<center>
+<strong> EGGCITING STUFF MAN!!! </strong>
 
-# Joe Rogan
+![🥚](https://media.giphy.com/media/EE27UK4I3TRRYoIUrx/giphy.gif)
+</center>
+
+Hello, My name is Joshua Wiseman and I'm working with the egg data set (EGGS.XLS).
+The main reason is eggs are a good source of protein, which helps build muscle
+and they also taste good. It's a two for one deal! What's not to like? But with
+this data I will try and predict what factors will allow for the most eggs to survive as possible
+so that we can all consume more greatness! But what factor will give us this information?
+Well, for this we will use the Strength Metric as the factor which we are trying to
+predict. Why? Well it's because the more strength the egg has, the less likely the egg is going to break
+compared to normal allowing for more eggs to be produced and consumed by us people who
+love eggs so much!
+
+<center>
+![Lovely Eggs, Amazin!](eggs.jpg "My Picture"){ width=40% }
+
+</center>
+
+## What are the variables we need?
 ```{r}
-#Get References working
-2+2
+eggs <- read.csv("EGGS.csv")
+eggs
+
+# Traits to each egg
+# eggs$STRENGTH
+# eggs$OVERRUN
+# eggs$THICKNESS
+# eggs$HOUSING
+# eggs$WTCLASS
 ```
+
+As you can see there are multiple variables to choose to be our "x" variable or
+the variable to predict our "y", aka the Strength.
+
+[^1]: Based Footnote
+
+### Different data plots
+
+This is OVERRUN to STRENGTH correlation. As you can see there is not really a correlation here.
+```{r}
+library(ggplot2)
+
+# OVERRUN predicting STRENGTH
+g = ggplot(eggs, aes(x = OVERRUN, y = STRENGTH, color = "cyl")) + geom_point()
+g = g + geom_smooth(method = "loess", formula = y ~ x)
+g
+```
+
+This is THICKNESS to STRENGTH correlation. As you can see there is somewhat of a correlation, but it's not strong.
+```{r}
+# THICKNESS predicting STRENGTH
+g = ggplot(eggs, aes(x = THICKNESS, y = STRENGTH, color = "blue")) + geom_point()
+g = g + geom_smooth(method = "loess", formula = y ~ x)
+g
+```
+
+This is WTCLASS to STRENGTH correlation. As you can see there is not really a correlation here.
+```{r}
+# WTCLASS predicting STRENGTH
+g = ggplot(eggs, aes(x = WTCLASS, y = STRENGTH, color = "green")) + geom_point()
+g = g + geom_smooth(method = "loess", formula = y ~ x)
+g
+```
+
+This is HOUSING to STRENGTH correlation. As you can see the correlation is not that strong, however, there is still somewhat of a correlation here.
+```{r}
+# HOUSING predicting STRENGTH
+g = ggplot(eggs, aes(x = HOUSING, y = STRENGTH, color = "red")) + geom_point()
+g = g + geom_smooth(method = "loess", formula = y ~ x)
+g
+```
+
+## How was the data collected? 
+Four housing systems were
+investigated: (1) cage, (2) barn, (3) free range, and (4) organic. Twenty-eight commercial grade A eggs were randomly selected from supermarkets — 10 of which were
+produced in cages, 6 in barns, 6 with free range, and 6 organic.
+
+## What is the story behind the data?
+Food Chemistry (Vol. 106, 2008) published a study
+of the quality of commercial eggs produced from different
+housing systems for chickens.
+
+## Why was it gathered?
+To find a number of quantitative characteristics were measured for each egg, including penetration strength (Newtons).
+
+## What is my interest in the data?
+<center>
+My interest in the data is because eggs are cool and taste good.
+
+![](eggs2.jpg "My Picture"){ width=40% }
+</center>
+
+## What problem do I wish to solve?
+I wish to solve the problem to produce more strength in eggs
+so that more eggs make it to market.
+
+# Theory needed to carry out SLR, aka Prediction
+
+## Main result 1 (What is the x value?)
+As stated previously we need our "x" value which will predict our "y" value.
+Our "y" value being what we want to find, Strength of the egg and the "x" value being
+what will be the best predictor of the "y" value. As shown in the four plots above in the plot data section. Our two best options are Housing and Thickness for the "x" value. However, since Housing is Nominal data and Thickness is Ratio data we will go ahead and choose the Thickness variable to be our "x" value.
+```{r}
+# THICKNESS predicting STRENGTH
+g = ggplot(eggs, aes(x = THICKNESS, y = STRENGTH, color = "blue")) + geom_point()
+g = g + geom_smooth(method = "loess", formula = y ~ x)
+g
+```
+
+## Main result 2 (Models are not looking good)
+Huge Problem though, the data size of 28 is not a lot of data :(. Which means that this
+prediction is not going to be the most reliable because trends could be found by randomness (probability 0.5, but 8 out of 10 are true when it should be 5 for example). Another official term for this is the null hypothesis and will be shown later in this document. So because of this, using a deterministic model is out of the question (calculate future event exactly, without involvement of randomness). However a questionable probabilistic model is still something which we can make from this data (uses the effect of random occurrences or actions to forecast the possibility of future results).
+
+A Simple Linear Regression Model (SLR) is one type of probabilistic model that assumes that the data goes in a straight line. If we had data that looked like it goes in a straight line this would make life easy, but sadly this is not true.
+
+This is mathematical notation for SLR
+$$y=\beta_0+\beta_1x_i+\epsilon_i$$
+The main thing which you need to know is that $\epsilon$ is the random error &
+$\beta_0+\beta_1x$ is the mean value of y given x.
+
+Then there is a Quadratic Linear Regression Model which is a type of probabilistic model that assumes that the data goes in a quadratic type curve. Again, this is not the case for our egg data :(.
+
+This is mathematical notation for Quadratic Linear Regression Model
+$$y=\beta_0+\beta_1x_i+\beta_2x^2+\epsilon_i$$
+The main thing which you need to know is that $\epsilon$ is the random error &
+$\beta_0+\beta_1x_i+\beta_2x^2$ is the mean value of y given x. Same as SLR, but just, you know, quadratic.
+
+## Checks on validity
+```{r}
+library(s20x)
+eggs.lm=lm(STRENGTH~THICKNESS,data=eggs)
+summary(eggs.lm)
+eggs.qdlm=lm(STRENGTH~THICKNESS + I(THICKNESS ^ 2),data=eggs)
+summary(eggs.qdlm)
+```
+
+P-value for the qdlm is smaller, therefore better, but still a long shot away to invalidating the null hypothesis (random chance). Essentially, both still suck :( and are so high in fact that the null hypothesis cannot be rejected (chance of randomness).
+
+```{r}
+plot(eggs.lm, which = 1)
+plot(eggs.qdlm, which = 1)
+```
+
+Residuals (red line) are not close to the dotted line (closeness to mean) which means the data is worse.
+
+```{r}
+ciReg(eggs.lm)
+ciReg(eggs.qdlm)
+```
+
+This range is where 95% of the data shows up.
+
+### Straight trend line for eggs data
+```{r}
+layout(1)
+plot(eggs$STRENGTH~eggs$THICKNESS, bg="Blue",pch=21, xlim = c(0, 1.1*max(eggs$THICKNESS)), xlab = "Thickness", ylim = c(0, 1.1*max(eggs$STRENGTH)), ylab = "Strength of Egg", cex = 1.2, main = "Plot of Thickness vs Strength", data=eggs)
+abline(eggs.lm)
+
+plot(eggs$STRENGTH~eggs$THICKNESS)
+myplot = function(x){
+  eggs.qdlm$coef[1] + eggs.qdlm$coef[2] * x + eggs.qdlm$coef[3] * x ^ 2
+}
+
+curve(myplot, lwd = 2, col = "steelblue", add = TRUE)
+```
+
+#### Trendscatter of eggs data
+```{r}
+trendscatter(eggs$STRENGTH~eggs$THICKNESS, data = eggs, f = 0.5)
+```
+
+#### Residual vs fitted values for eggs data
+```{r}
+strength.res = residuals(eggs.lm)
+strength.fit = fitted(eggs.lm)
+
+strength.qdres = residuals(eggs.qdlm)
+strength.qdfit = fitted(eggs.qdlm)
+```
+
+#### Trendscatter on Residual Vs Fitted for eggs data
+```{r}
+trendscatter(strength.res~strength.fit)
+trendscatter(strength.qdres~strength.qdfit)
+```
+
+The trend must go back to the middle dotted line and stay their to be reliable, this is not the case as you can see here.
+
+### Independence of data 
+```{r}
+t.test(eggs$STRENGTH,eggs$THICKNESS)
+```
+They come from the same egg so no, there is no independence.
+
+# Which model is better?
+As seen previously, these models are really not great, but based on the p variable and closeness of the data points to the mean, the quadratic model will be best. [@FarawayJulianJames2016Etlm]
+
+## Adjusted $R^2$ Check
+$$R_{adj}^2 =$$
+```{r}
+# Linear Model
+RSS1 = with(eggs, sum((THICKNESS-strength.fit)^2))
+MSS1 = with(eggs, sum((strength.fit-mean(THICKNESS))^2))
+TSS1 = with(eggs, sum((THICKNESS-mean(THICKNESS))^2))
+R1 = MSS1/TSS1
+R1
+
+# Quadratic Model
+RSS2 = with(eggs, sum((THICKNESS-strength.qdfit)^2))
+MSS2 = with(eggs, sum((strength.qdfit-mean(THICKNESS))^2))
+TSS2 = with(eggs, sum((THICKNESS-mean(THICKNESS))^2))
+R2 = MSS2/TSS2
+R2
+```
+
+Here is further proof. The Higher the R^2 value, the more reliable the model is and the quadratic model is a little bit higher than the linear model, honestly the difference is negligible because they are both not really reliable, but it is still there. [@FarawayJulianJames2016Etlm]
+
+## Summary lm\qd object
+```{r}
+summary(eggs.lm)
+summary(eggs.qdlm)
+```
+
+
+# Conclusion
+
+<center>
+![Burger Chicken?!](chicken.png "My Picture"){ width=40% }
+</center>
+
+## Answer can we get BETTER EGGS?!
+With the data given from this data set, sadly I must conclude that this data is not reliable enough to make such a conclusion. There is not enough data given and the data given looks pretty random for the most part. Could you condlude that there is some correlation? Sure, but that corralation could litteraly also be chance. However I do have hope that we can get find some corralation with more data to result in more eggs with higher thinkness so that more eggs make it to market.
+
+## Ways to improve the model or experiment
+I think a concave up quadratic with removing outliers would make the model more reliable.
+However, as previously stated, there should be more data in this data set because otherwise the trend is not as obvious and it's 100% not obvious here.
 
 # References
-Among us

@@ -17,9 +17,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+![](https://media.giphy.com/media/ZeB4HcMpsyDo4/giphy.gif)
+
 # Questions{}
 
-## Q 1 NOT DONE
+## Q 1
 `MS 7.118 - pg 364`
 Extinct New Zealand birds. Refer to the Evolutionary
 Ecology Research (July 2003) study of the New Zealand
@@ -34,31 +36,55 @@ knitr::include_graphics("ass4Q1-1.png")
 
 a. Use a random number generator to select a random
 sample of 35 species from the NZBIRDS file.
+```{r}
+massSample = rnorm(35, 9113, 31457)
+eggSample = rnorm(35, 61.06, 45.46)
+```
 
 b. Calculate the mean and standard deviation for the 35
 sampled values of body mass. Then, use this information to construct a 95% confidence interval for the
 mean body mass of all 116 bird species.
+```{r}
+mI = t.test(massSample)
+eI = t.test(eggSample)
+# Mass 95% confidence Interval
+mI$conf.int
+# Egg 95% confidence Interval
+eI$conf.int
+```
 
 c. Give a practical interpretation of the interval, part b.
+
+<span style="color: red;">95% of the data is located inbetween these two ranges (both for mass and egg).</span>
 
 d. Check to see if the true mean, m (shown on the MINITAB
 printout), is included in the confidence interval, part b.
 Explain why the interval is very likely to contain m.
 
+<span style="color: red;">The interval contains m because the true mean is trying to reach the center of which the interval should provide (both for mass and egg).</span>
+
 e. Repeat parts b–d for the 35 sampled values of egg length.
 
-  f. Ecologists also want to compare the proportions of
-flightless birds for two New Zealand bird populations—those that are extinct and those that are not extinct. Use the sample information in the table below to
-form a 95% confidence interval for the difference between the proportion of flightless birds for extinct and nonextinct species.
-
-  g. The ecologists are investigating the theory that the proportion of flightless birds will be greater for extinct
-species than for nonextinct species. Does the confidence interval, part f, support this theory? Explain.
+<span style="color: red;">Already Done.</span>
 
 ```{r, out.width = "400px"}
 knitr::include_graphics("ass4Q1-2.png")
 ```
 
-## Q 2 NOT DONE
+  f. Ecologists also want to compare the proportions of
+flightless birds for two New Zealand bird populations—those that are extinct and those that are not extinct. Use the sample information in the table below to
+form a 95% confidence interval for the difference between the proportion of flightless birds for extinct and nonextinct species.
+```{r}
+c(21/38, 7/78)
+```
+
+  g. The ecologists are investigating the theory that the proportion of flightless birds will be greater for extinct
+species than for nonextinct species. Does the confidence interval, part f, support this theory? Explain.
+
+<span style="color: red;">No, interval doesn't contain 1.</span>
+
+
+## Q 2
 `MS 7.120 - pg 365`
 Strength of epoxy-repaired joints. The methodology for
 conducting a stress analysis of newly designed timber
@@ -82,25 +108,68 @@ knitr::include_graphics("ass4Q2.png")
   a. Estimate the difference between the mean shear
 strengths of epoxy-repaired truss joints for the two
 species of wood with a 90% confidence interval.
+$$(\bar{y_1}-\bar{y_2}) \pm z_{\alpha/2} \sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}}=> (1,312-1352) \pm 1.645\sqrt{\frac{422^2}{100}+\frac{271^2}{47}}$$
+$$=> -40 \pm 95.118 => (-135.118, 55.118)$$
 
   b. Construct a 90% confidence interval for the ratio of the
 shear stress variances of epoxy-repaired truss joints for
 the two species of wood. Based on this interval, is there
 evidence to indicate that the two shear stress variances
 differ? Explain.
+$$\frac{422^2}{271^2}*\frac{1}{1.54818} \leq \frac{\sigma_1^2}{\sigma_2^2} \leq \frac{422^2}{271^2}(1.49194)=>1.566 \leq \frac{\sigma_1^2}{\sigma_2^2} \leq 3.618$$
+Yes because the interval doesn't contain 1, meaning that their is not chance that they share the same interval and therefore share variances.
 
-## Q 3 NOT DONE
+
+```{r}
+myboot<-function(iter=10000,x,fun="mean",alpha=0.05,...){  #Notice where the ... is repeated in the code
+n=length(x)   #sample size
+
+y=sample(x,n*iter,replace=TRUE)
+rs.mat=matrix(y,nr=n,nc=iter,byrow=TRUE)
+xstat=apply(rs.mat,2,fun) # xstat is a vector and will have iter values in it 
+ci=quantile(xstat,c(alpha/2,1-alpha/2))# Nice way to form a confidence interval
+# A histogram follows
+# The object para will contain the parameters used to make the histogram
+para=hist(xstat,freq=FALSE,las=1,
+main=paste("Histogram of Bootstrap sample statistics","\n","alpha=",alpha," iter=",iter,sep=""),
+...)
+
+#mat will be a matrix that contains the data, this is done so that I can use apply()
+mat=matrix(x,nr=length(x),nc=1,byrow=TRUE)
+
+#pte is the point estimate
+#This uses whatever fun is
+pte=apply(mat,2,fun)
+abline(v=pte,lwd=3,col="Black")# Vertical line
+segments(ci[1],0,ci[2],0,lwd=4)      #Make the segment for the ci
+text(ci[1],0,paste("(",round(ci[1],2),sep=""),col="Red",cex=3)
+text(ci[2],0,paste(round(ci[2],2),")",sep=""),col="Red",cex=3)
+
+# plot the point estimate 1/2 way up the density
+text(pte,max(para$density)/2,round(pte,2),cex=3)
+
+return(list(ci=ci,fun=fun,x=x))# Some output to use if necessary
+}
+
+
+```
+
+## Q 3
 `MS 7.128 - pg 367`
 Suppose y is a random sample of size n = 1 from a normal distribution with mean 0 and unknown variance $\sigma^2$.
 
   a. Show that $y^2$/$\sigma^2$ has a chi-square distribution with 1
 degree of freedom. (Hint: The result follows directly
 from Theorem 6.11.)
+$$P(\chi^2_{1-\alpha/2} \leq \frac{Y^2}{\sigma^2} \leq \chi_{\alpha/2}^2) = 1-\alpha$$
+$$P(\frac{1}{\chi^2_{1-\alpha/2}} \leq \frac{Y^2}{\sigma^2} \leq \frac{1}{\chi_{\alpha/2}^2)} = P(\frac{1}{\chi^2_{\alpha/2}} \leq \frac{Y^2}{\sigma^2} \leq \frac{1}{\chi_{1-\alpha/2}^2)}$$
+$$P(\frac{Y^2}{\chi^2_{1-\alpha/2}} \leq \sigma^2 \leq \frac{Y^2}{\chi_{\alpha/2}^2)}$$
 
   b. Derive a 95% confidence interval for $\sigma^2$ using $y^2$/$\sigma^2$
 as a pivotal statistic.
+$$P(\frac{Y^2}{\chi^2_{0.95/2}} \leq \sigma^2 \leq \frac{Y^2}{\chi_{0.05/2}^2)}$$
 
-## Q 4 NOT DONE
+## Q 4
 `MS 8.24 - pg 390`
 Surface roughness of pipe. Refer to the Anti-corrosion
 Methods and Materials (Vol. 50, 2003) study of the surface roughness of coated interior pipe used in oil fields,
@@ -111,10 +180,18 @@ p. 391.
   a. Give the null and alternative hypotheses for testing
 whether the mean surface roughness of coated interior
 pipe, $\mu$, differs from 2 micrometers.
+<span style="color: red;">$H_0: \mu = 2$ $H_a: \mu \neq 2$</span>
 
   b. The results of the test, part a, are shown in the
 MINITAB printout at the bottom of the page. Locate
 the test statistic and p-value on the printout.
+```{r}
+x = c(1.72, 2.5, 2.16, 2.13, 1.06, 2.24, 2.31, 2.03, 1.09, 1.40, 2.57, 2.64, 1.26, 2.05, 1.19, 2.13, 1.27, 1.51, 2.41, 1.95)
+t.test(x, mu=2)
+```
+
+<span style="color: red;">t = -1.0158, p-value = 0.3225</span>
+
 
 ```{r, out.width = "400px"}
 knitr::include_graphics("ass4Q4.png")
@@ -122,13 +199,16 @@ knitr::include_graphics("ass4Q4.png")
 
   c. Give the rejection region for the hypothesis test, using
 $\alpha$ = .05.
+<span style="color: red;">Reject the null hypothesis if the absolute value of the test statistic exceeds 2.0930</span>
 
   d. State the appropriate conclusion for the hypothesis test.
-  
+<span style="color: red;">Since the absolute value of the test statistic value is less than the critical value, we don't reject the null hypothesis.</span>
+
   e. In Exercise 7.26 you found a 95% confidence interval
 for $\mu$. Explain why the confidence interval and test statistic lead to the same conclusion about $\mu$.
+<span style="color: red;">The 95% confidence interval is (1.635802, 2.126198) and since the null hypothesis value of 2 is in this confidence interval, we don't reject the null hypothesis</span>
 
-## Q 5 NOT DONE
+## Q 5
 `MS 8.28 - pg 392`
 Dissolved organic compound in lakes. The level of dissolved oxygen in the surface water of a lake is vital to
 maintaining the lake’s ecosystem. Environmentalists from
@@ -143,16 +223,23 @@ of 15 grams/$m^3$.
   a. Use a hypothesis test (at $\alpha$ = .10) to make an inference
 about whether the sample is representative of all Wisconsin lakes for the characteristic, dissolved organic
 compound.
+```{r}
+x <- c(9.6,4.5,13.2,4.1,22.6,2.7,14.7,3.5,13.6,19.8,14.3,19.8,14.3,56.9,25.1,18.4,2.7,4.2,30.2,10.3,17.6,2.4,17.3,38.8,3.0,5.8,7.6)
+t.test(x, mu=15, conf.level = 0.9)
+```
+
+<span style="color: red;">With this p-value, the result is not significant. So we can say that the sample is a representative of all Wisconsin lakes for the DOC.</span>
 
   b. What is the likelihood that the test, part a, will detect
 a mean that differs from 15 grams/$m^3$ if, in fact, $\mu_a$ =
 14 grams/$m^3$?
+<span style="color: red;">If the mean is 14, then the test does not indicate any significant difference.</span>
 
 ```{r, out.width = "400px"}
 knitr::include_graphics("ass4Q5.png")
 ```
 
-## Q 6 NOT DONE
+## Q 6
 `MS 8.44 - pg 401`
 Insecticides used in orchards. Environmental Science &
 Technology (Oct. 1993) reported on a study of insecticides
@@ -169,7 +256,19 @@ test of hypothesis. Use $\alpha$ = .05.
 knitr::include_graphics("ass4Q6.png")
 ```
 
-## Q 7 NOT DONE
+```{r}
+# s <- sum(c(10.3,6.9,6.2,12.4,45.8,9.9,27.4,44.8,27.8,6.5,11.2,16.6))
+# oxon <- c(10.3,6.9,6.2,12.4,45.8,9.9,27.4,44.8,27.8,6.5,11.2,16.6, s)
+# thion <- c(38.2,28.6,30.2,23.7,62.3,74.1,88.2,46.4,135.9,102.9,28.9,46.9,44.3)
+# t.test(oxon, thion, paired = TRUE)
+
+m <- c(0.27,0.241,0.205,0.523,0.618,0.112,0.591,0.330,0.270,0.225,0.239,0.375)
+t.test(m)
+```
+
+<span style="color: red;">There is a mean significance difference between foggy and clear conditions of oxon/thion ratio (p<0.05)</span>
+
+## Q 7
 `MS 8.84 - pg 425 – This refers to 8.39 NOT 8.33!`
 Cooling method for gas turbines. Refer to the Journal of
 Engineering for Gas Turbines and Power (Jan. 2005)
@@ -183,13 +282,43 @@ the heat rate variances were equal.
   a. Conduct a test (at $\alpha$ = .05) for equality of heat rate
 variances for traditional and aeroderivative augmented gas turbines. Use the result to make a statement about
 the validity of the inference derived in Exercise 8.33 a.
+```{r}
+# Read in data
+dird="~/Desktop/MainFolder/OuClasses/Spring 2023/Applied Statistical Methods/FALL224753wise0046/CourseData/Data-for-the-course/K25936_Downloads/Excel/"
+library(readxl)
+
+files = list.files(dird)
+
+### Important Functions
+myconvert = function(xl) {
+  if(stringr::str_ends(xl, "XLS") | stringr::str_ends(xl, "xls")){
+    v=try(readxl::read_xls(paste0(dird, xl)), silent = TRUE)
+  }
+  else{
+    v = NA
+  }
+  v
+}
+
+g <- myconvert("GASTURBINE.XLS")
+#ddt[ddt$RIVER == "TRM" & ddt$LENGTH == 52,]
+traditional <- g[g$ENGINE == "Traditional",]$HEATRATE
+aeroderiv <- g[g$ENGINE == "Aeroderiv",]$HEATRATE
+advanced <- g[g$ENGINE == "Advanced",]$HEATRATE
+t.test(traditional, aeroderiv)
+t.test(advanced, aeroderiv)
+```
+
+<span style="color: red;">There is 1 in the interval, meaning that the variances could be the same. (P < 0.05) so we reject the null hypothesis.</span>
 
   b. Conduct a test (at $\alpha$ = .05) for equality of heat rate
 variances for advanced and aeroderivative augmented
 gas turbines. Use the result to make a statement about
 the validity of the inference derived in Exercise 8.39 b.
 
-## Q 8 NOT DONE
+<span style="color: red;">There is not 1 in the interval, meaning that the variance are not the same. (P > 0.05) so we don't reject the null hypothesis.</span>
+
+## Q 8
 `MS 8.99 - pg 438`
 ```{r, out.width = "400px"}
 knitr::include_graphics("ass4Q8.png")
@@ -204,19 +333,35 @@ must be equal in order for the inference to be valid.
 a. Set up $H_0$ and $H_a$ for determining whether the variances
 are the same.
 
+<span style="color: red;">$H_0: \frac{\sigma_1^2}{\sigma_2^2} = 1$ $H_a: \frac{\sigma_1^2}{\sigma_2^2} \neq 1$</span>
+
 b. Use the data in the GOBIANTS file to find the test statistic for the test.
+```{r}
+ants <- myconvert("GOBIANTS.XLS")
+dry <- ants[ants$Region == "Dry Steppe",]$AntSpecies
+gobi <- ants[ants$Region == "Gobi Desert",]$AntSpecies
+t.test(dry, gobi)
+```
 
 c. Give the rejection region for the test if $\alpha$ = .05.
 
+<span style="color: red;"> Rejection region is f > 7.9859 or f < 0.17926</span>
+
 d. Find the approximate p-value of the test.
+
+<span style="color: red;">p-value is 0.8622</span>
 
 e. Make the appropriate conclusion in the words of the
 problem.
 
+<span style="color: red;">(P > 0.05) so we can't reject the null hypothesis.</span>
+
 f. What conditions are required for the test results to be
 valid?
 
-## Q 9 NOT DONE
+<span style="color: red;">We need independent random samples from a normal population of ants.</span>
+
+## Q 9
 `MS 8.104 - pg 439`
 Real-time scheduling with robots. Researchers at Purdue
 University compared human real-time scheduling in a
@@ -232,5 +377,56 @@ of hypothesis.
 knitr::include_graphics("ass4Q9.png")
 ```
 
-## Q 10 NOT DONE
-`Look at the ass4.pdf`
+```{r}
+human <- c(185.4,146.3,174.4,184.9,240.0,253.8,238.8,263.5)
+auto <- c(180.4,248.5,185.5,216.4,269.3,249.6,282.0,315.9)
+t.test(human, auto)
+```
+
+<span style="color: red;">There is 1 in the interval, meaning that the variance could be the same. (P > 0.05) so we don't reject the null hypothesis.</span>
+
+## Q 10
+```{r}
+myboot<-function(iter=10000,x,fun="mean",alpha=0.05,...){  #Notice where the ... is repeated in the code
+n=length(x)   #sample size
+
+y=sample(x,n*iter,replace=TRUE)
+rs.mat=matrix(y,nr=n,nc=iter,byrow=TRUE)
+xstat=apply(rs.mat,2,fun) # xstat is a vector and will have iter values in it 
+ci=quantile(xstat,c(alpha/2,1-alpha/2))# Nice way to form a confidence interval
+
+t=qnorm(1-alpha/2,mean=0,sd=1)
+m=mean(x)
+cit=c(m-t/2,m+t/2)
+
+# A histogram follows
+# The object para will contain the parameters used to make the histogram
+para=hist(xstat,freq=FALSE,las=1, col = "cyan",
+main=paste("Histogram of Bootstrap sample statistics","\n","alpha=",alpha," iter=",iter,sep=""),
+...)
+
+#mat will be a matrix that contains the data, this is done so that I can use apply()
+mat=matrix(x,nr=length(x),nc=1,byrow=TRUE)
+
+#pte is the point estimate
+#This uses whatever fun is
+pte=apply(mat,2,fun)
+abline(v=pte,lwd=3,col="Black")# Vertical line
+segments(ci[1],0,ci[2],0,lwd=4)      #Make the segment for the ci
+text(ci[1],0,paste("(",round(ci[1],2),sep=""),col="Red",cex=2)
+text(ci[2],0,paste(round(ci[2],2),")",sep=""),col="Red",cex=2)
+
+
+text(ci[1],0.1,paste("(",round(cit[1],2),sep=""),col="Blue",cex=2)
+text(ci[2],0.1,paste(round(cit[2],2),")",sep=""),col="Blue",cex=2)
+
+# plot the point estimate 1/2 way up the density
+text(pte,max(para$density)/2,round(pte,2),cex=3)
+
+return(list(ci=ci,fun=fun,x=x,t=t,cit=cit))# Some output to use if necessary
+}
+
+set.seed(35); sam<-round(rnorm(30,mean=20,sd=3),3)
+myboot(x=sam)
+```
+

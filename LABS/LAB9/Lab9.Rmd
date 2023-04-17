@@ -1,0 +1,318 @@
+---
+title: "Lab9"
+author: "Joshua Wiseman"
+date: '`r format(Sys.Date(),format="%A, %B %d, %Y")`'
+output: 
+  html_document:
+    df_print: paged
+    fig_caption: true
+    highlights: pygments
+    number_sections: no
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![](https://media.giphy.com/media/tj7q6n5L4qW7m/giphy.gif)
+
+# Task 1
+
+## Working Directory
+```{r}
+getwd()
+```
+
+# Task 2
+
+## myboot() Explanation
+```{r}
+myboot<-function(iter=10000,x,fun="mean",alpha=0.05,...){  
+
+#Notice where the ... is repeated in the code
+n=length(x)   #sample size
+
+#Now sample with replacement
+y=sample(x,n*iter,replace=TRUE) #A
+
+# Make a matrix with all the resampled values
+rs.mat=matrix(y,nr=n,nc=iter,byrow=TRUE)
+xstat=apply(rs.mat,2,fun) 
+# xstat is a vector and will have iter values in it 
+ci=quantile(xstat,c(alpha/2,1-alpha/2)) #B
+# Nice way to form a confidence interval
+# A histogram follows
+# The object para will contain the parameters used to make the histogram
+para=hist(xstat,freq=FALSE,las=1,main="Histogram of Bootstrap sample statistics",...)
+
+#mat will be a matrix that contains the data, this is done so that I can use apply()
+mat=matrix(x,nr=length(x),nc=1,byrow=TRUE)
+
+#pte is the point estimate
+#This uses whatever fun is
+pte=apply(mat,2,fun)
+abline(v=pte,lwd=3,col="Black")# Vertical line
+segments(ci[1],0,ci[2],0,lwd=4)      #Make the segment for the ci
+text(ci[1],0,paste("(",round(ci[1],2),sep=""),col="Red",cex=3)
+text(ci[2],0,paste(round(ci[2],2),")",sep=""),col="Red",cex=3)
+
+# plot the point estimate 1/2 way up the density
+text(pte,max(para$density)/2,round(pte,2),cex=3)
+
+return(list(ci=ci,fun=fun,x=x))# Some output to use if necessary
+}
+```
+
+A generates a random sample of size n * iter from a vector x and assigns it to y with replacement being true.
+
+In B, xstat is a vector of sample data and alpha is the significance level. quantile() is used to calculate the lower and upper bounds of the confidence interval. Then ci will be a vector containing the lower and upper bounds of the confidence interval.
+
+## dtaum in x
+Sample creates a random sample which is what we need to make data from. Replacement in this function mimics more closely to drawing samples from a population.
+
+## Unique Sample replacement
+```{r}
+set.seed(35) # This will give everyone the same sample
+sam=round(rnorm(20,mean=10,sd=4),2)
+unique(sample(sam,20,replace=TRUE) ) # repeat this line 5Xs
+unique(sample(sam,20,replace=TRUE) )
+unique(sample(sam,20,replace=TRUE) )
+unique(sample(sam,20,replace=TRUE) )
+unique(sample(sam,20,replace=TRUE) )
+```
+
+I see vectors with different sizes and values (repeated).
+
+## Unique Sample no replacement
+```{r}
+unique(sample(sam,20,replace=FALSE) ) # repeat this line 5Xs
+unique(sample(sam,20,replace=FALSE) )
+unique(sample(sam,20,replace=FALSE) )
+unique(sample(sam,20,replace=FALSE) )
+unique(sample(sam,20,replace=FALSE) )
+```
+
+I see vectors with same sizes and values.
+
+## sample error
+```{r}
+# sample(sam,21,replace=FALSE)
+```
+
+An error happens because the sample size is 20 and we can't replace, meaning sampling 21 is just not possible with the given requirements.
+
+# Task 3
+
+## myboot() 95% interval plots
+```{r}
+set.seed(39); sam=rnorm(25,mean=25,sd=10)
+myboot(x=sam)
+mean(sam)
+
+set.seed(30); sam=rchisq(20,df=3)
+myboot(x=sam)
+mean(sam)
+
+set.seed(40); sam=rgamma(30,shape=2,scale=3)
+myboot(x=sam)
+mean(sam)
+
+set.seed(10); sam=rbeta(20,shape1=3,shape2=4)
+myboot(x=sam)
+mean(sam)
+```
+
+In each of the cases how close is the point estimate to the population value? 95%
+
+In each of the above cases does the interval contain the population value? Yes
+
+## myboot() 80% interval plots
+```{r}
+set.seed(39); sam=rnorm(25,mean=25,sd=10)
+myboot(x=sam,alpha=0.20)
+mean(sam)
+
+set.seed(30); sam=rchisq(20,df=3)
+myboot(x=sam,alpha=0.20)
+mean(sam)
+
+set.seed(40); sam=rgamma(30,shape=2,scale=3)
+myboot(x=sam, alpha=0.20)
+mean(sam)
+
+set.seed(10); sam=rbeta(20,shape1=3,shape2=4)
+myboot(x=sam, alpha=0.20)
+mean(sam)
+```
+
+# Task 4
+
+## Adjusted myboot()
+```{r}
+########### bootstrap function ##################
+
+myboot2<-function(iter=10000,x,fun="mean",alpha=0.05,cx=1.5,...){  #Notice where the ... is repeated in the code
+n=length(x)   #sample size
+
+y=sample(x,n*iter,replace=TRUE)
+rs.mat=matrix(y,nr=n,nc=iter,byrow=TRUE)
+xstat=apply(rs.mat,2,fun) # xstat is a vector and will have iter values in it 
+ci=quantile(xstat,c(alpha/2,1-alpha/2))# Nice way to form a confidence interval
+# A histogram follows
+# The object para will contain the parameters used to make the histogram
+para=hist(xstat,freq=FALSE,las=1,
+main=paste("Histogram of Bootstrap sample statistics","\n","alpha=",alpha," iter=",iter,sep=""),
+...)
+
+#mat will be a matrix that contains the data, this is done so that I can use apply()
+mat=matrix(x,nr=length(x),nc=1,byrow=TRUE)
+
+#pte is the point estimate
+#This uses whatever fun is
+pte=apply(mat,2,fun)
+abline(v=pte,lwd=3,col="Black")# Vertical line
+segments(ci[1],0,ci[2],0,lwd=4)      #Make the segment for the ci
+text(ci[1],0,paste("(",round(ci[1],2),sep=""),col="Red",cex=cx)
+text(ci[2],0,paste(round(ci[2],2),")",sep=""),col="Red",cex=cx)
+
+# plot the point estimate 1/2 way up the density
+text(pte,max(para$density)/2,round(pte,2),cex=cx)
+
+invisible(list(ci=ci,fun=fun,x=x))# Some output to use if necessary
+}
+
+################### END mybooot function #####################
+
+sam=c(1,1,1,2,2,2,2,3,3,3,4,4)
+y = myboot(x=sam,fun="median")
+y
+```
+
+## Bootstrap interval estimate
+The bootstrap interval estimate for the median is (1.5,3)
+
+# Task 5
+
+## Find 95% interval for population
+```{r}
+set.seed(39); sam=rnorm(25,mean=25,sd=10)
+mean(sam)/median(sam)
+y = myboot2(x=sam)
+z = myboot2(x=sam,fun="median")
+y
+z
+# y/z in terms of the interval
+
+set.seed(30); sam=rchisq(20,df=3)
+mean(sam)/median(sam)
+y = myboot2(x=sam)
+z = myboot2(x=sam,fun="median")
+y
+z
+# y/z in terms of the interval
+
+set.seed(40); sam=rgamma(30,shape=2,scale=3)
+mean(sam)/median(sam)
+y = myboot2(x=sam)
+z = myboot2(x=sam,fun="median")
+y
+z
+# y/z in terms of the interval
+
+set.seed(10); sam=rbeta(20,shape1=3,shape2=4)
+mean(sam)/median(sam)
+y = myboot2(x=sam)
+z = myboot2(x=sam,fun="median")
+y
+z
+# y/z in terms of the interval
+```
+
+## Find 70% interval for population
+```{r}
+set.seed(39); sam=rnorm(25,mean=25,sd=10)
+mean(sam)/median(sam)
+y = myboot2(x=sam,alpha=0.30)
+z = myboot2(x=sam,alpha=0.30,fun="median")
+y
+z
+# y/z in terms of the interval
+
+
+set.seed(30); sam=rchisq(20,df=3)
+mean(sam)/median(sam)
+y = myboot2(x=sam,alpha=0.30)
+z = myboot2(x=sam,alpha=0.30,fun="median")
+y
+z
+# y/z in terms of the interval
+
+set.seed(40); sam=rgamma(30,shape=2,scale=3)
+mean(sam)/median(sam)
+y = myboot2(x=sam,alpha=0.30)
+z = myboot2(x=sam,alpha=0.30,fun="median")
+y
+z
+# y/z in terms of the interval
+
+set.seed(10); sam=rbeta(20,shape1=3,shape2=4)
+mean(sam)/median(sam)
+y = myboot2(x=sam,alpha=0.30)
+z = myboot2(x=sam,alpha=0.30,fun="median")
+y
+z
+# y/z in terms of the interval
+```
+
+# Task 6
+
+## ?distributions
+```{r}
+sam=rweibull(20,shape=1,scale=2)
+myboot2(x=sam,alpha=0.30,fun="mean")
+myboot2(x=sam,alpha=0.30,fun="var")
+
+sam=rpois(20, lambda=5)
+myboot2(x=sam,alpha=0.30,fun="mean")
+myboot2(x=sam,alpha=0.30,fun="var")
+
+sam=runif(20, min=-1, max=3)
+myboot2(x=sam,alpha=0.30,fun="mean")
+myboot2(x=sam,alpha=0.30,fun="var")
+
+sam=rbinom(20, 5, 0.7)
+myboot2(x=sam,alpha=0.30,fun="mean")
+myboot2(x=sam,alpha=0.30,fun="var")
+```
+
+# Task 7
+
+## Interesting Intervals
+```{r}
+set.seed(68); sam=rnorm(20,mean=10,sd=4)
+myboot(x=sam,fun="sd")
+myboot(x=sam,fun="IQR")
+```
+
+## Theory Intervals
+```{r}
+alpha = 0.05
+10-qnorm(1-alpha/2,mean=0,sd=1)
+10+qnorm(1-alpha/2,mean=0,sd=1)
+
+set.seed(68); sam=rnorm(20,mean=10,sd=4)
+myboot(x=sam)
+```
+
+They are pretty close to each other!
+
+# Task 8
+
+## Packaged myboot2()
+```{r}
+set.seed(68); sam=rnorm(20,mean=10,sd=4)
+BestRPackage::myBoot2(x=sam)
+```
