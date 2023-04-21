@@ -228,7 +228,7 @@ The trend must go back to the middle dotted line and stay their to be reliable, 
 
 ### Independence of data 
 ```{r}
-t.test(eggs$STRENGTH,eggs$THICKNESS)
+t.test(eggs$STRENGTH,eggs$THICKNESS, paired=TRUE)
 ```
 They come from the same egg so no, there is no independence.
 
